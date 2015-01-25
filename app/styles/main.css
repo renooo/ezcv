@@ -1,0 +1,15 @@
+.avatar {
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  width: 48px;
+  margin: 16px; 
+}
+.avatar.big {
+  border-radius: 60px;
+  border: 1px solid #ddd;
+  width: 96px;
+  margin: 32px; 
+}
+.employeeToolbarTitle {
+  color: #ffffff;
+}

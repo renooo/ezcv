@@ -1,0 +1,50 @@
+<md-toolbar md-scroll-shrink>
+	<div class="md-toolbar-tools" ng-show="employee.id">
+		<md-button ng-href="#/employees" aria-label="retour">
+			<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+		</md-button>
+		<h3 class="employeeToolbarTitle">
+        	{{employee.fullName}}
+      	</h3>
+      	<md-button ng-href="mailto:{{employee.email}}" layout-align="left" aria-label="contacter par mail">
+      		<md-icon icon="images/ic_email_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+      	</md-button>
+	</div>
+</md-toolbar>
+<md-content ng-hide="employee.experiences" style="height: 200px;">
+	<div layout="row" layout-sm="column" layout-align="center center">
+		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+	</div>
+</md-content>
+<md-content ng-show="employee.experiences">
+	<div class="md-tile-content">
+		<div class="md-tile-left">
+        	<img ng-src="{{employee.avatarUrl}}" class="avatar big" alt="{{employee.fullName}}">
+      	</div>
+      	<div class="md-tile-content">
+	        <h3>{{employee.fullName}}</h3>
+	        <h4>{{employee.city}} - {{employee.country}}</h4>
+	        <p ng-if="employee.experiences.length">
+	          Son CV liste <strong>{{employee._embedded.experiences.length}}</strong> expériences professionnelles.
+	        </p>
+	        <p ng-if="!employee.experiences.length">
+	        	Pas d'expérience ... pour le moment !
+	        </p>
+	    </div>
+
+	    <div>
+	    	Permis de conduire : <strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong>
+	    </div>
+	</div>	
+
+	<section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
+		<md-subheader class="md-primary">
+			<strong>{{experience.job.name}}</strong> chez <strong>{{experience.company.name}}</strong>
+			de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
+		</md-subheader>
+
+		<section ng-repeat="mission in experience.missions">
+			<h3>{{mission.name}}</h3>
+		</section>
+	</section>	
+</md-content>
