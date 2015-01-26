@@ -21,7 +21,22 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ng-view></div>
+    <section layout="row" flex>
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="sidenav">
+          <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">Menu</h1>
+          </md-toolbar>
+          <md-content ng-controller="SidenavCtrl">
+            
+            <md-button ng-click="close()" class="md-primary">
+              Fermer
+            </md-button>
+          </md-content>
+        </md-sidenav>
+        <md-content flex style="height: 600px;">
+            <div ng-view></div>
+        </md-content>
+    </section>
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
@@ -46,9 +61,10 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/employees.js"></script>
-        <script src="scripts/services/apiconfig.js"></script>
-        <script src="scripts/services/employee.js"></script>
         <script src="scripts/controllers/employee.js"></script>
+        <script src="scripts/controllers/sidenav.js"></script>
+        <script src="scripts/services/appconfig.js"></script>
+        <script src="scripts/services/employee.js"></script>
         <script src="scripts/services/company.js"></script>
         <script src="scripts/services/job.js"></script>
         <script src="scripts/services/experience.js"></script>

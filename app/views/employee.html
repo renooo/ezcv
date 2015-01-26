@@ -1,50 +1,61 @@
 <md-toolbar md-scroll-shrink>
-	<div class="md-toolbar-tools" ng-show="employee.id">
+	<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
 		<md-button ng-href="#/employees" aria-label="retour">
 			<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 		</md-button>
-		<h3 class="employeeToolbarTitle">
+		<h1 class="employeeToolbarTitle">
         	{{employee.fullName}}
-      	</h3>
-      	<md-button ng-href="mailto:{{employee.email}}" layout-align="left" aria-label="contacter par mail">
+      	</h1>
+      	<md-button ng-href="mailto:{{employee.email}}" aria-label="contacter par mail" ng-show="employee.email">
       		<md-icon icon="images/ic_email_24px.svg" style="width: 24px; height: 24px;"></md-icon>
       	</md-button>
 	</div>
 </md-toolbar>
-<md-content ng-hide="employee.experiences" style="height: 200px;">
-	<div layout="row" layout-sm="column" layout-align="center center">
-		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
-	</div>
-</md-content>
-<md-content ng-show="employee.experiences">
-	<div class="md-tile-content">
-		<div class="md-tile-left">
-        	<img ng-src="{{employee.avatarUrl}}" class="avatar big" alt="{{employee.fullName}}">
-      	</div>
-      	<div class="md-tile-content">
-	        <h3>{{employee.fullName}}</h3>
-	        <h4>{{employee.city}} - {{employee.country}}</h4>
-	        <p ng-if="employee.experiences.length">
-	          Son CV liste <strong>{{employee._embedded.experiences.length}}</strong> expériences professionnelles.
-	        </p>
-	        <p ng-if="!employee.experiences.length">
-	        	Pas d'expérience ... pour le moment !
-	        </p>
-	    </div>
 
-	    <div>
-	    	Permis de conduire : <strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong>
-	    </div>
-	</div>	
+<div layout="row" layout-align="center center" ng-hide="employee.experiences" style="height: 300px;">
+	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
 
-	<section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
-		<md-subheader class="md-primary">
-			<strong>{{experience.job.name}}</strong> chez <strong>{{experience.company.name}}</strong>
-			de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
-		</md-subheader>
+<div layout="row" class="md-whiteframe-z1" ng-show="employee.experiences">
+	<div>
+    	<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
+  	</div>
+  	<div flex style="padding-top: 5px;">
+        <div>né le : <strong>{{employee.birthdate | dateFormat: 'dd/MM/yyyy'}}</strong></div>
+        <div>habite à : <strong>{{employee.city}} - {{employee.country}}</strong></div>
+        <div>permis de conduire : <strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong></div>
+    </div>
+</div>
 
-		<section ng-repeat="mission in experience.missions">
-			<h3>{{mission.name}}</h3>
-		</section>
-	</section>	
-</md-content>
+<br />
+<br />
+
+<div ng-if="employee && employee.experiences.length == 0" class="md-padding">
+	<p>Pas d'expérience ... pour le moment !</p>
+</div>
+
+<section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
+	<md-subheader class="md-primary">
+		<strong>{{experience.job.name}}</strong> chez <strong>{{experience.company.name}}</strong>
+		de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
+	</md-subheader>
+
+	<md-list layout="column">
+		<md-item ng-repeat="mission in experience.missions" ng-click="viewMission(employee)">
+	    	<md-item-content>
+		      	<div class="md-tile-content">
+			        <h3>{{mission.name}}</h3>
+			        <h4 ng-show="mission.tags.length">
+						Mots-clés : <md-button class="md-primary" ng-repeat="tag in mission.tags">{{tag.label}}</md-button>
+					</h4>
+					<md-divider ng-show="mission.tags.length"></md-divider>
+			        <p>
+			        	{{mission.description}}
+			        </p>
+			    </div>
+	    	</md-item-content>
+    		<md-divider></md-divider>
+    	</md-item>
+	</md-list>
+</section>	
+

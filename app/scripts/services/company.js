@@ -8,6 +8,6 @@
  * Factory in the ezcvApp.
  */
 angular.module('ezcvApp')
-  .factory('Company', function ($resource, apiConfig) {
-    return $resource(apiConfig.baseUrl + '/company/:companyId', {companyId: '@id'});
+  .factory('Company', function ($resource, appConfig) {
+    return $resource(appConfig.apiEndpoint + '/company/:companyId', {companyId: '@id'});
   });

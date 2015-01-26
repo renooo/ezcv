@@ -17,6 +17,10 @@ angular.module('ezcvApp')
     	angular.forEach(employee._embedded.experiences, function(experience){
 			experience.missions = experience._embedded.missions;
 
+			angular.forEach(experience.missions, function(mission){
+				mission.tags = mission._embedded.tags;
+			});
+
     		$resource(experience._embedded.job._links.self.href).get().$promise.then(function(job){
     			experience.job = job;
     		});
