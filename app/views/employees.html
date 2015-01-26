@@ -6,6 +6,7 @@
 		<h1 class="employeeToolbarTitle">
         	Utilisateurs
       	</h1>
+      	<div> </div>
 	</div>
 </md-toolbar>
 <div layout="row">
@@ -31,13 +32,17 @@
 	      	</div>
 	      	<div class="md-tile-content">
 		        <h3>{{employee.fullName}}</h3>
-		        <h4>{{employee.city}} - {{employee.country}}</h4>
-		        <p ng-if="employee._embedded.experiences.length">
-		          Son CV liste <strong>{{employee._embedded.experiences.length}}</strong> expériences professionnelles.
+		        <h4>{{employee.currentJobName}}</h4>
+		        <p ng-if="employee.experiences.length">
+		          Son CV liste <strong>{{employee.experiences.length}}</strong> expériences professionnelles.
 		        </p>
-		        <p ng-if="!employee._embedded.experiences.length">
+		        <p ng-if="!employee.experiences.length">
 		        	Pas d'expérience ... pour le moment !
 		        </p>
+		        <p>
+	        		<strong ng-if="employee.isCurrentlyEmployed">Actuellement en poste</strong>
+	        		<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
+	        	</p>
 		    </div>
     	</md-item-content>
     	<md-divider></md-divider>

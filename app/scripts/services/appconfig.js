@@ -13,11 +13,12 @@ angular.module('ezcvApp')
 		apiEndpoint: 'http://ezcv-api.local:8888/api'
 	},
 	prod = {
-		apiEndpoint: 'http://ezcv-api.bougre.fr/api'
+		apiEndpoint: 'http://ezcv-api.bougré.fr/api'
 	};
 
-	if($location.$$host.match(/\.local$/))
+	if($location.$$host.match(/\.local$/)){
 		return dev;
+	}
 
 	return prod;
   });

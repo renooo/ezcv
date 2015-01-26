@@ -1,6 +1,6 @@
 <md-toolbar md-scroll-shrink>
 	<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-		<md-button ng-href="#/employees" aria-label="retour">
+		<md-button ng-click="viewEmployees()" aria-label="retour">
 			<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 		</md-button>
 		<h1 class="employeeToolbarTitle">
@@ -24,15 +24,19 @@
         <div>né le : <strong>{{employee.birthdate | dateFormat: 'dd/MM/yyyy'}}</strong></div>
         <div>habite à : <strong>{{employee.city}} - {{employee.country}}</strong></div>
         <div>permis de conduire : <strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong></div>
+        <div>
+			<strong ng-if="employee.isCurrentlyEmployed">Actuellement en poste</strong>
+			<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
+		</div>
     </div>
 </div>
 
 <br />
 <br />
 
-<div ng-if="employee && employee.experiences.length == 0" class="md-padding">
+<md-content ng-if="employee && employee.experiences.length == 0" class="md-padding">
 	<p>Pas d'expérience ... pour le moment !</p>
-</div>
+</md-content>
 
 <section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
 	<md-subheader class="md-primary">
