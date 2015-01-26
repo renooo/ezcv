@@ -12,7 +12,12 @@ angular.module('ezcvApp')
     $scope.employee = null;
 
     $scope.viewEmployees = function(){
-        $location.path('/employees').search('q', $location.search().q);
+        var filters = {
+            fullName: $location.search().fullName,
+            isCurrentlyEmployed: $location.search().isCurrentlyEmployed,
+            isLookingForAJob: $location.search().isLookingForAJob
+        };
+        $location.path('/employees').search(filters);
     };
     
     Employee.get({employeeId: $routeParams.employeeId}).$promise.then(function(employee){

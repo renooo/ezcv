@@ -10,23 +10,51 @@
 angular.module('ezcvApp')
   .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, Employee) {
     $scope.employees = null;
-    $scope.fullNameSearch = $location.search().q;
+    $scope.showFilters = false;
+    $scope.filters = {
+        fullName: $location.search().fullName,
+        isCurrentlyEmployed: $location.search().isCurrentlyEmployed,
+        isLookingForAJob: $location.search().isLookingForAJob
+    };
 
     $scope.openSidenav = function(){
     	$mdSidenav('sidenav').open();
     };
 
+    $scope.toggleFilters = function(){
+        $scope.showFilters = !$scope.showFilters;
+    };
+
     $scope.viewEmployee = function(employee){
-    	$location.path('/employee/'+employee.id).search('q', $scope.fullNameSearch);
+    	$location.path('/employee/'+employee.id).search($scope.filters);
     };
 
     $scope.searchEmployees = function(){
-    	var params = {};
+    	var params = {},
+            p = 0;
 
-    	if(angular.isString($scope.fullNameSearch)){
-    		params = {'filter[0][type]': 'like', 'filter[0][field]': 'fullName', 'filter[0][value]': $scope.fullNameSearch+'%'};
-    	}
+    	if(angular.isString($scope.filters.fullName)){
+    		params['filter['+p+'][type]']  = 'like';
+            params['filter['+p+'][field]'] = 'fullName';
+            params['filter['+p+'][value]'] = $scope.filters.fullName+'%';
+            p++;
+        }
 
+        if($scope.filters.isCurrentlyEmployed){
+            params['filter['+p+'][type]']  = 'eq';
+            params['filter['+p+'][field]'] = 'isCurrentlyEmployed';
+            params['filter['+p+'][value]'] = 1;
+            p++;
+        }
+
+        if($scope.filters.isLookingForAJob){
+            params['filter['+p+'][type]']  = 'eq';
+            params['filter['+p+'][field]'] = 'isLookingForAJob';
+            params['filter['+p+'][value]'] = 1;
+            p++;
+        }
+
+        $location.search($scope.filters);
     	$scope.employees = null;
 
 	    Employee.get(params, function(employees){
@@ -40,7 +68,7 @@ angular.module('ezcvApp')
     };
 
     $scope.clearSearch = function(){
-    	$scope.fullNameSearch = null;
+    	$scope.filters.fullName = null;
     	$scope.searchEmployees();
     };
 

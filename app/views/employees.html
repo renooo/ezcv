@@ -1,20 +1,30 @@
 <md-toolbar md-scroll-shrink>
 	<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-		<md-button ng-href="#/employees" aria-label="menu" ng-click="openSidenav()">
+		<md-button aria-label="menu" ng-click="openSidenav()">
 			<md-icon icon="images/ic_menu_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 		</md-button>
 		<h1 class="employeeToolbarTitle">
         	Utilisateurs
       	</h1>
-      	<div> </div>
+      	<md-button aria-label="afficher les filtres" ng-click="toggleFilters()">
+			<md-icon icon="images/ic_filter_list_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+		</md-button>
 	</div>
+</md-toolbar>
+<md-toolbar ng-show="showFilters || filters.isCurrentlyEmployed || filters.isLookingForAJob" class="md-primary md-hue-3" layout="row">
+	<md-checkbox ng-change="searchEmployees()" ng-model="filters.isCurrentlyEmployed" aria-label="actuellement en poste" class="md-primary">
+		En poste
+	</md-checkbox>
+	<md-checkbox ng-change="searchEmployees()" ng-model="filters.isLookingForAJob" aria-label="en recherche" class="md-primary">
+		En recherche
+	</md-checkbox>
 </md-toolbar>
 <div layout="row">
 	<md-input-container flex>
 	    <label>Saisir un nom pour rechercher un utilisateur</label>
-	    <input ng-model="fullNameSearch" ng-change="searchEmployees()">
+	    <input ng-model="filters.fullName" ng-change="searchEmployees()">
 	</md-input-container>
-    <md-button aria-label="effacer" ng-click="clearSearch()" ng-show="fullNameSearch">
+    <md-button aria-label="effacer" ng-click="clearSearch()" ng-show="filters.fullName">
 		<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 	</md-button>
 </div>

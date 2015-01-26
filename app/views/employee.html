@@ -15,21 +15,22 @@
 <div layout="row" layout-align="center center" ng-hide="employee.experiences" style="height: 300px;">
 	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 </div>
+<md-toolbar layout="column" class="md-primary md-hue-3 md-whiteframe-z1" ng-show="employee.experiences">
+	<div layout="row" layout-align="center">{{employee.currentJobName}}</div>
+	<div layout="row">
+		<div>
+    		<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
+	  	</div>
 
-<div layout="row" class="md-whiteframe-z1" ng-show="employee.experiences">
-	<div>
-    	<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
-  	</div>
-  	<div flex style="padding-top: 5px;">
-        <div>né le : <strong>{{employee.birthdate | dateFormat: 'dd/MM/yyyy'}}</strong></div>
-        <div>habite à : <strong>{{employee.city}} - {{employee.country}}</strong></div>
-        <div>permis de conduire : <strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong></div>
-        <div>
-			<strong ng-if="employee.isCurrentlyEmployed">Actuellement en poste</strong>
+        <div style="font-size: 12px">
+        	né le : <strong>{{employee.birthdate | dateFormat: 'dd/MM/yyyy'}}</strong><br />
+        	habite à : <strong>{{employee.city}} - {{employee.country}}</strong><br />
+        	permis de conduire : <strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong><br />
+        	<strong ng-if="employee.isCurrentlyEmployed">Actuellement en poste</strong>
 			<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
 		</div>
-    </div>
-</div>
+	</div>
+</md-toolbar>
 
 <br />
 <br />
