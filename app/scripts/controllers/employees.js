@@ -22,6 +22,9 @@ angular.module('ezcvApp')
     };
 
     $scope.toggleFilters = function(){
+        $scope.filters.isCurrentlyEmployed = false;
+        $scope.filters.isLookingForAJob = false;
+        $location.search({isCurrentlyEmployed: null, isLookingForAJob: null});
         $scope.showFilters = !$scope.showFilters;
     };
 
