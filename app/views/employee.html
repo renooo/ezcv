@@ -1,66 +1,68 @@
-<md-toolbar md-scroll-shrink>
-	<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-		<md-button ng-click="viewEmployees()" aria-label="retour">
-			<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
-		</md-button>
-		<h1 class="employeeToolbarTitle">
-        	{{employee.fullName}}
-      	</h1>
-      	<md-button ng-href="mailto:{{employee.email}}" aria-label="contacter par mail" ng-show="employee.email">
-      		<md-icon icon="images/ic_email_24px.svg" style="width: 24px; height: 24px;"></md-icon>
-      	</md-button>
-	</div>
-</md-toolbar>
-
-<div layout="row" layout-align="center center" ng-hide="employee.experiences" style="height: 300px;">
-	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
-</div>
-<md-toolbar layout="column" class="md-primary md-hue-3 md-whiteframe-z1" ng-show="employee.experiences">
-	<div layout="row" layout-align="center">{{employee.currentJobName}}</div>
-	<div layout="row">
-		<div>
-    		<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
-	  	</div>
-
-        <div style="font-size: 12px">
-        	né le : <strong>{{employee.birthdate | dateFormat: 'dd/MM/yyyy'}}</strong><br />
-        	habite à : <strong>{{employee.city}} - {{employee.country}}</strong><br />
-        	permis de conduire : <strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong><br />
-        	<strong ng-if="employee.isCurrentlyEmployed">Actuellement en poste</strong>
-			<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
+<md-content style="height: 640px;">
+	<md-toolbar>
+		<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+			<md-button ng-click="viewEmployees()" aria-label="retour">
+				<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+			</md-button>
+			<h1 class="employeeToolbarTitle">
+	        	{{employee.fullName}}<br />
+	  			<span class="smallText">{{employee.currentJobName}}</span>
+	      	</h1>
+	      	<md-button ng-href="mailto:{{employee.email}}" aria-label="contacter par mail" ng-show="employee.email">
+	      		<md-icon icon="images/ic_email_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+	      	</md-button>
 		</div>
+	</md-toolbar>
+	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-show="employee.experiences">
+		<div class="md-toolbar-tools" layout-align="space-between center">	
+			<div>
+	    		<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
+		  	</div>
+			<div>
+				<div class="smallText">
+					{{employee.city}} - {{employee.country}}<br />
+					<strong ng-if="employee.isCurrentlyEmployed">En poste</strong>
+					<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
+				</div>
+			</div>
+
+	        <div class="smallText">
+	        	<strong>{{employee.birthdate | dateFormat: 'dd/MM/yyyy'}}</strong><br />
+	        	Permis :
+	        	<strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong><br />
+			</div>
+		</div>
+	</md-toolbar>
+	<div layout="row" layout-align="center center" ng-hide="employee.experiences" style="height: 390px;">
+		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 	</div>
-</md-toolbar>
-
-<br />
-<br />
-
-<md-content ng-if="employee && employee.experiences.length == 0" class="md-padding">
-	<p>Pas d'expérience ... pour le moment !</p>
-</md-content>
-
-<section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
-	<md-subheader class="md-primary">
-		<strong>{{experience.job.name}}</strong> chez <strong>{{experience.company.name}}</strong>
-		de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
-	</md-subheader>
-
-	<md-list layout="column">
-		<md-item ng-repeat="mission in experience.missions" ng-click="viewMission(employee)">
-	    	<md-item-content>
-		      	<div class="md-tile-content">
-			        <h3>{{mission.name}}</h3>
-			        <h4 ng-show="mission.tags.length">
-						Mots-clés : <md-button class="md-primary" ng-repeat="tag in mission.tags">{{tag.label}}</md-button>
-					</h4>
-					<md-divider ng-show="mission.tags.length"></md-divider>
-			        <p>
-			        	{{mission.description}}
-			        </p>
-			    </div>
-	    	</md-item-content>
-    		<md-divider></md-divider>
-    	</md-item>
-	</md-list>
-</section>	
-
+	<md-content ng-if="employee && employee.experiences.length == 0" class="md-padding">
+		<p>Pas d'expérience ... pour le moment !</p>
+	</md-content>
+	<br />	
+	<section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
+		<md-subheader class="md-primary">
+			<strong>{{experience.job.name}}</strong> 
+			chez <strong>{{experience.company.name}}</strong>
+			de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> 
+			à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
+		</md-subheader>
+		<md-list layout="column">
+			<md-item ng-repeat="mission in experience.missions" ng-click="viewMission(employee)">
+		    	<md-item-content>
+			      	<div class="md-tile-content">
+				        <h3>{{mission.name}}</h3>
+				        <h4 ng-show="mission.tags.length">
+							Mots-clés : <md-button class="md-primary" ng-repeat="tag in mission.tags">{{tag.label}}</md-button>
+						</h4>
+						<md-divider ng-show="mission.tags.length"></md-divider>
+				        <p>
+				        	{{mission.description}}
+				        </p>
+				    </div>
+		    	</md-item-content>
+	    		<md-divider></md-divider>
+	    	</md-item>
+		</md-list>
+	</section>
+</md-content>	

@@ -21,10 +21,10 @@ angular
        .accentPalette('amber');
 
     $routeProvider
-      /*.when('/', {
+      .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
-      })*/
+      })
       .when('/employees', {
         templateUrl: 'views/employees.html',
         controller: 'EmployeesCtrl'
@@ -34,6 +34,6 @@ angular
         controller: 'EmployeeCtrl'
       })
       .otherwise({
-        redirectTo: '/employees'
+        redirectTo: '/'
       });
   });

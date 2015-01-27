@@ -1,61 +1,75 @@
-<md-toolbar md-scroll-shrink>
-	<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-		<md-button aria-label="menu" ng-click="openSidenav()">
-			<md-icon icon="images/ic_menu_24px.svg" style="width: 24px; height: 24px;"></md-icon>
-		</md-button>
-		<h1 class="employeeToolbarTitle">
-        	Utilisateurs
-      	</h1>
-      	<md-button aria-label="afficher les filtres" ng-click="toggleFilters()">
-			<md-icon icon="images/ic_filter_list_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+<md-content>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="sidenav">
+      <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Menu</h1>
+      </md-toolbar>
+      <md-content ng-controller="SidenavCtrl">
+        <md-button ng-click="close()" class="md-primary">
+          Fermer
+        </md-button>
+      </md-content>
+    </md-sidenav>
+	<md-toolbar>
+		<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+			<md-button aria-label="menu" ng-click="openSidenav()">
+				<md-icon icon="images/ic_menu_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+			</md-button>
+			<h1 class="employeeToolbarTitle">
+	        	Utilisateurs
+	      	</h1>
+	      	<md-button aria-label="afficher les filtres" ng-click="toggleFilters()">
+				<md-icon icon="images/ic_filter_list_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+			</md-button>
+		</div>
+	</md-toolbar>
+	<md-toolbar layout-align="space-between center" ng-show="showFilters || filters.isCurrentlyEmployed || filters.isLookingForAJob" class="md-primary md-hue-3">
+		<div class="md-toolbar-tools">
+			<md-checkbox ng-change="searchEmployees()" ng-model="filters.isCurrentlyEmployed" aria-label="en poste" class="md-primary">
+				En poste
+			</md-checkbox>
+			<md-checkbox ng-change="searchEmployees()" ng-model="filters.isLookingForAJob" aria-label="en recherche" class="md-primary">
+				En recherche
+			</md-checkbox>
+		</div>
+	</md-toolbar>
+	<div layout="row">
+		<md-input-container flex>
+		    <label>Saisir un nom pour rechercher un utilisateur</label>
+		    <input ng-model="filters.fullName" ng-change="searchEmployees()">
+		</md-input-container>
+	    <md-button aria-label="effacer" ng-click="clearSearch()" ng-show="filters.fullName">
+			<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 		</md-button>
 	</div>
-</md-toolbar>
-<md-toolbar ng-show="showFilters || filters.isCurrentlyEmployed || filters.isLookingForAJob" class="md-primary md-hue-3" layout="row">
-	<md-checkbox ng-change="searchEmployees()" ng-model="filters.isCurrentlyEmployed" aria-label="actuellement en poste" class="md-primary">
-		En poste
-	</md-checkbox>
-	<md-checkbox ng-change="searchEmployees()" ng-model="filters.isLookingForAJob" aria-label="en recherche" class="md-primary">
-		En recherche
-	</md-checkbox>
-</md-toolbar>
-<div layout="row">
-	<md-input-container flex>
-	    <label>Saisir un nom pour rechercher un utilisateur</label>
-	    <input ng-model="filters.fullName" ng-change="searchEmployees()">
-	</md-input-container>
-    <md-button aria-label="effacer" ng-click="clearSearch()" ng-show="filters.fullName">
-		<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>
-	</md-button>
-</div>
-<div ng-hide="employees" layout="row" layout-align="center center">
-	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
-</div>
-<div ng-show="employees.length == 0">
-	Aucun résultat.
-</div>
-<md-list ng-show="employees && employees.length > 0">
-	<md-item ng-repeat="employee in employees" ng-click="viewEmployee(employee)">
-    	<md-item-content>
-	      	<div class="md-tile-left">
-	        	<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
-	      	</div>
-	      	<div class="md-tile-content">
-		        <h3>{{employee.fullName}}</h3>
-		        <h4>{{employee.currentJobName}}</h4>
-		        <p ng-if="employee.experiences.length">
-		          Son CV liste <strong>{{employee.experiences.length}}</strong> expériences professionnelles.
-		        </p>
-		        <p ng-if="!employee.experiences.length">
-		        	Pas d'expérience ... pour le moment !
-		        </p>
-		        <p>
-	        		<strong ng-if="employee.isCurrentlyEmployed">Actuellement en poste</strong>
-	        		<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
-	        	</p>
-		    </div>
-    	</md-item-content>
-    	<md-divider></md-divider>
-	</md-item>
-</md-list>
+	<div ng-hide="employees" layout="row" layout-align="center center">
+		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+	</div>
+	<md-content class="md-padding" ng-show="employees.length == 0">
+		Aucun résultat.
+	</md-content>
+	<md-list ng-show="employees && employees.length > 0">
+		<md-item ng-repeat="employee in employees" ng-click="viewEmployee(employee)">
+	    	<md-item-content>
+		      	<div class="md-tile-left">
+		        	<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
+		      	</div>
+		      	<div class="md-tile-content">
+			        <h3>{{employee.fullName}}</h3>
+			        <h4>{{employee.currentJobName}}</h4>
+			        <p ng-if="employee.experiences.length">
+			          Son CV liste <strong>{{employee.experiences.length}}</strong> expériences professionnelles.
+			        </p>
+			        <p ng-if="!employee.experiences.length">
+			        	Pas d'expérience ... pour le moment !
+			        </p>
+			        <p>
+		        		<strong ng-if="employee.isCurrentlyEmployed">En poste</strong>
+		        		<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
+		        	</p>
+			    </div>
+	    	</md-item-content>
+	    	<md-divider></md-divider>
+		</md-item>
+	</md-list>
+</md-content>
 
