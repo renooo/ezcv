@@ -8,13 +8,21 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, Employee) {
-    $scope.employees = null;
+  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, $cookieStore, Employee) {
+    $scope.employees = [];
     $scope.showFilters = false;
+    $scope.me = null;
+    $scope.myId = $cookieStore.get('my_id');
     $scope.filters = {
         fullName: $location.search().fullName,
         isCurrentlyEmployed: $location.search().isCurrentlyEmployed,
         isLookingForAJob: $location.search().isLookingForAJob
+    };
+
+    if($scope.myId){
+        Employee.get({employeeId: $scope.myId}).$promise.then(function(employee){
+            $scope.me = employee;
+        });
     };
 
     $scope.openSidenav = function(){

@@ -13,7 +13,8 @@ angular
     'ngAnimate',
     'ngResource',
     'ngRoute',
-    'ngMaterial'
+    'ngMaterial',
+    'ngCookies'
   ])
   .config(function ($mdThemingProvider, $routeProvider) {
      $mdThemingProvider.theme('default')
@@ -21,7 +22,7 @@ angular
        .accentPalette('amber');
 
     $routeProvider
-      .when('/', {
+      .when('/main', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
@@ -33,7 +34,15 @@ angular
         templateUrl: 'views/employee.html',
         controller: 'EmployeeCtrl'
       })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/logout', {
+        templateUrl: 'views/logout.html',
+        controller: 'LogoutCtrl'
+      })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/employees'
       });
   });

@@ -8,8 +8,23 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('SidenavCtrl', function($scope, $mdSidenav) {
+  .controller('SidenavCtrl', function($scope, $mdSidenav, $location) {
 	$scope.close = function() {
-	    $mdSidenav('sidenav').close();
+	    return $mdSidenav('sidenav').close();
+	};
+	$scope.viewEmployees = function(){
+		$location.path('/employees');
+	};
+	$scope.viewMyCV = function(){
+		$location.path('/employee/'+1);
+	};
+	$scope.editMyCV = function(){
+		$location.path('/edit');
+	};
+	$scope.login = function(){
+		$location.path('/login');
+	};
+	$scope.logout = function(){
+		$location.path('/logout');
 	};
 });

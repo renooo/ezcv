@@ -10,10 +10,12 @@
 angular.module('ezcvApp')
   .factory('appConfig', function($location){
   	var dev = {
-		apiEndpoint: 'http://ezcv-api.local:8888/api'
+		apiEndpoint: 'http://ezcv-api.local:8888/api',
+		oauthEndpoint: 'http://ezcv-api.local:8888/oauth'
 	},
 	prod = {
-		apiEndpoint: 'http://ezcv-api.bougré.fr/api'
+		apiEndpoint: 'http://ezcv-api.bougré.fr/api',
+		oauthEndpoint: 'http://ezcv-api.local:8888/oauth'
 	};
 
 	if($location.$$host.match(/\.local$/)){
