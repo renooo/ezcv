@@ -13,6 +13,7 @@ angular.module('ezcvApp')
     $scope.showFilters = false;
     $scope.me = null;
     $scope.myId = $cookieStore.get('my_id');
+    $scope.loadingMe = false;
     $scope.filters = {
         fullName: $location.search().fullName,
         isCurrentlyEmployed: $location.search().isCurrentlyEmployed,
@@ -20,8 +21,10 @@ angular.module('ezcvApp')
     };
 
     if($scope.myId){
+        $scope.loadingMe = true;
         Employee.get({employeeId: $scope.myId}).$promise.then(function(employee){
             $scope.me = employee;
+            $scope.loadingMe = false;
         });
     };
 

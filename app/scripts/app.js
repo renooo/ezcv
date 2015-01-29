@@ -42,6 +42,14 @@ angular
         templateUrl: 'views/logout.html',
         controller: 'LogoutCtrl'
       })
+      .when('/subscribe', {
+        templateUrl: 'views/subscribe.html',
+        controller: 'SubscribeCtrl'
+      })
+      .when('/edit', {
+        templateUrl: 'views/edit.html',
+        controller: 'EditCtrl'
+      })
       .otherwise({
         redirectTo: '/employees'
       });

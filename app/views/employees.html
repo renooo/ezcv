@@ -20,55 +20,55 @@
 
       <md-content ng-controller="SidenavCtrl">
       	<md-list>
-      		<md-item ng-click="viewEmployees()">
+      		<md-item ng-click="viewEmployees()" class="clickable">
       			<md-item-content>
 			      	<div class="md-tile-left">
-      					<md-icon icon="/bower_components/material-design-icons/action/svg/design/ic_view_list_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+      					<md-icon icon="images/ic_list_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			      	</div>
 			      	<div class="md-tile-content">Tous les utilisateurs</div>
 				</md-item-content>
       			<md-divider></md-divider>
       		</md-item>
-      		<md-item ng-show="me" ng-click="viewMyCV()">
+      		<md-item ng-show="me" ng-click="viewMyCV()" class="clickable">
       			<md-item-content>
 			      	<div class="md-tile-left">
-      					<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+      					<md-icon icon="images/ic_subject_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			      	</div>
 			      	<div class="md-tile-content">Voir mon CV</div>
 				</md-item-content>
       			<md-divider></md-divider>
       		</md-item>      		
-      		<md-item ng-show="me">
+      		<md-item ng-show="me" class="clickable">
       			<md-item-content ng-click="editMyCV()">
 			      	<div class="md-tile-left">
-      					<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+      					<md-icon icon="images/ic_mode_edit_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			      	</div>
 			      	<div class="md-tile-content">Modifier mon CV</div>
 				</md-item-content>
       			<md-divider></md-divider>
       		</md-item>      		
-      		<md-item ng-hide="me" ng-click="register()">
+      		<md-item ng-hide="me" ng-click="subscribe()" class="clickable">
 	  			<md-item-content>
 			      	<div class="md-tile-left">
-	  					<md-icon icon="/bower_components/material-design-icons/social/svg/design/ic_group_add_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+	  					<md-icon icon="images/ic_group_add_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			      	</div>
 			      	<div class="md-tile-content">Inscription</div>
 				</md-item-content>
 	  			<md-divider></md-divider>
 	  		</md-item>
-      		<md-item ng-hide="me" ng-click="login()">
+      		<md-item ng-hide="me" ng-click="login()" class="clickable">
 	  			<md-item-content>
 			      	<div class="md-tile-left">
-	  					<md-icon icon="/bower_components/material-design-icons/action/svg/design/ic_lock_outline_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+	  					<md-icon icon="images/ic_lock_outline_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			      	</div>
 			      	<div class="md-tile-content">Connexion</div>
 				</md-item-content>
 	  			<md-divider></md-divider>
 	  		</md-item>
-		    <md-item ng-show="me" ng-click="logout()">
+		    <md-item ng-show="me" ng-click="logout()" class="clickable">
 				<md-item-content>
 			      	<div class="md-tile-left">
-						<md-icon icon="/bower_components/material-design-icons/action/svg/design/images/ic_exit_to_app_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+						<md-icon icon="images/ic_exit_to_app_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			      	</div>
 	      			<div class="md-tile-content">Déconnexion</div>
 				</md-item-content>
@@ -84,7 +84,7 @@
     </md-sidenav>
 	<md-toolbar>
 		<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
-			<md-button aria-label="menu" ng-click="openSidenav()">
+			<md-button aria-label="menu" ng-click="openSidenav()" ng-disabled="loadingMe">
 				<md-icon icon="images/ic_menu_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			</md-button>
 			<h1 class="employeeToolbarTitle">
@@ -108,7 +108,7 @@
 	<div layout="row">
 		<md-input-container flex>
 		    <label>Saisir un nom pour rechercher un utilisateur</label>
-		    <input ng-model="filters.fullName" ng-change="searchEmployees()">
+		    <input ng-model="filters.fullName" ng-blur="searchEmployees()">
 		</md-input-container>
 	    <md-button aria-label="effacer" ng-click="clearSearch()" ng-show="filters.fullName">
 			<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>
@@ -121,7 +121,7 @@
 		Aucun résultat.
 	</md-content>
 	<md-list ng-show="employees && employees.length > 0">
-		<md-item ng-repeat="employee in employees" ng-click="viewEmployee(employee)">
+		<md-item ng-repeat="employee in employees" ng-click="viewEmployee(employee)" class="clickable">
 	    	<md-item-content>
 		      	<div class="md-tile-left">
 		        	<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">

@@ -36,22 +36,21 @@ angular.module('ezcvApp')
   			data: $scope.login
   		}).
   		success(function(data, status, headers, config) {
-  			console.debug(data);
   			var filter = {
   				'filter[0][type]': 'eq', 
   				'filter[0][field]': 'userName', 
-  				'filter[0][value]': 'renaud.bougre' //@todo : récupérer la vraie valeur
+  				'filter[0][value]': $scope.login.username
   			};
 
   			$cookieStore.put('access_token', data.access_token);
 
   			Employee.get(filter).$promise.then(function(employees){
-  				console.debug(employees);
   				$cookieStore.put('my_id', employees._embedded.employees[0].id);
+          $scope.authenticating = false;
+          $scope.redirectAfterLogin();
   			});
 
-  			$scope.authenticating = false;
-  			$scope.redirectAfterLogin();
+
   		}).
   		error(function(data, status, headers, config) {
   			$scope.error = data;

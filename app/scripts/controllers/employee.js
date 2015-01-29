@@ -44,5 +44,7 @@ angular.module('ezcvApp')
     	});
 
     	$scope.employee = employee;
+    }).catch(function(){
+        $location.path('/employees');
     });
   });
