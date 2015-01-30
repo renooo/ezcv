@@ -42,13 +42,17 @@ angular
         templateUrl: 'views/logout.html',
         controller: 'LogoutCtrl'
       })
-      .when('/subscribe', {
-        templateUrl: 'views/subscribe.html',
-        controller: 'SubscribeCtrl'
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'RegisterCtrl'
       })
       .when('/edit', {
         templateUrl: 'views/edit.html',
         controller: 'EditCtrl'
+      })
+      .when('/profile', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl'
       })
       .otherwise({
         redirectTo: '/employees'

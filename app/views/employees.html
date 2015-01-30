@@ -46,8 +46,17 @@
 			      	<div class="md-tile-content">Modifier mon CV</div>
 				</md-item-content>
       			<md-divider></md-divider>
-      		</md-item>      		
-      		<md-item ng-hide="me" ng-click="subscribe()" class="clickable">
+      		</md-item>
+      		<md-item ng-show="me" class="clickable">
+      			<md-item-content ng-click="editMyProfile()">
+			      	<div class="md-tile-left">
+      					<md-icon icon="images/ic_account_box_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+			      	</div>
+			      	<div class="md-tile-content">Modifier mon profil</div>
+				</md-item-content>
+      			<md-divider></md-divider>
+      		</md-item>        		
+      		<md-item ng-hide="me" ng-click="register()" class="clickable">
 	  			<md-item-content>
 			      	<div class="md-tile-left">
 	  					<md-icon icon="images/ic_group_add_24px.svg" style="width: 24px; height: 24px;"></md-icon>
@@ -75,10 +84,12 @@
 				<md-divider></md-divider>
 			</md-item>
        </md-list>
-
-		<md-button ng-click="close()" class="md-primary" layout-align="center center">
-			Fermer
-		</md-button>
+       <br />
+       <div layout="row" layout-align="center center">
+			<md-button ng-click="close()" class="md-primary" layout-align="center center">
+				Fermer
+			</md-button>
+		</div>
 
       </md-content>
     </md-sidenav>
@@ -108,7 +119,7 @@
 	<div layout="row">
 		<md-input-container flex>
 		    <label>Saisir un nom pour rechercher un utilisateur</label>
-		    <input ng-model="filters.fullName" ng-blur="searchEmployees()">
+		    <input ng-model="filters.fullName" ng-change="searchEmployees()">
 		</md-input-container>
 	    <md-button aria-label="effacer" ng-click="clearSearch()" ng-show="filters.fullName">
 			<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>

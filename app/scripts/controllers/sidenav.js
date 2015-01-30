@@ -23,8 +23,8 @@ angular.module('ezcvApp')
 	$scope.editMyCV = function(){
 		$location.path('/edit');
 	};
-	$scope.subscribe = function(){
-		$location.path('/subscribe');
+	$scope.register = function(){
+		$location.path('/register');
 	};
 	$scope.login = function(){
 		$location.path('/login');

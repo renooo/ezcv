@@ -1,0 +1,83 @@
+<md-content>
+	<md-toolbar>
+		<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+			<md-button ng-click="viewEmployees()" aria-label="retour">
+				<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+			</md-button>
+			<h1 class="employeeToolbarTitle">
+	        	Inscription
+	      	</h1>
+	      	<div></div>
+		</div>
+	</md-toolbar>
+	<md-content class="md-padding" layout-align="center" layout="row">
+		<form name="loginForm" layout="column" layout-align="center center">
+	      	<div layout="row">
+				<md-input-container>
+		        	<label>Nom</label>
+		        	<input ng-model="user.firstName" ng-disabled="registering" required>
+		      	</md-input-container>
+				<md-input-container>
+		        	<label>Prénom</label>
+		        	<input ng-model="user.lastName" ng-disabled="registering" required>
+		      	</md-input-container>
+	      	</div>
+			<md-input-container>
+	        	<label>Date de naissance</label>
+	        	<input ng-model="user.birthdate" ng-disabled="registering" type="date" min="1900-01-01" max="1999-12-31" required>
+	      	</md-input-container>	      	
+	      	<div layout="row">
+				<md-input-container>
+		        	<label>Code postal</label>
+		        	<input ng-model="user.zipCode" ng-disabled="registering" type="number" required>
+		      	</md-input-container>
+				<md-input-container>
+		        	<label>Ville</label>
+		        	<input ng-model="user.city" ng-disabled="registering" required>
+		      	</md-input-container>
+	      	</div>
+			<md-input-container>
+	        	<label>Pays</label>
+	      	</md-input-container>
+	      	<div>
+	      		<select ng-model="user.country" ng-options="country.name for country in countries" ng-disabled="registering" required>
+	        	</select>
+	      	</div>
+	      	<md-input-container>
+		        <label>Intitulé de poste actuel (libre)</label>
+		        <input ng-model="user.currentTitleJob" ng-disabled="registering" required>
+		    </md-input-container>
+		    <div layout="row">
+				<md-checkbox ng-change="searchEmployees()" ng-model="user.isCurrentlyEmployed" aria-label="en poste" class="md-primary">
+					En poste
+				</md-checkbox>
+				<md-checkbox ng-change="searchEmployees()" ng-model="user.isLookingForAJob" aria-label="en recherche" class="md-primary">
+					En recherche
+				</md-checkbox>
+		    </div>
+		    <div layout="row">
+				<md-input-container>
+		        	<label>Nom d'utilisateur</label>
+		        	<input ng-model="user.userName" ng-disabled="registering" required>
+		      	</md-input-container>
+				<md-input-container>
+		        	<label>Addresse email</label>
+		        	<input ng-model="user.email" ng-disabled="registering" required>
+		      	</md-input-container>
+		    </div>
+	      	<div layout="row">
+		      	<md-input-container>
+		        	<label>Mot de passe</label>
+		        	<input ng-model="user.password" ng-disabled="registering" type="password" required>
+		      	</md-input-container>
+		      	<md-input-container>
+		        	<label>Confirmation</label>
+		        	<input ng-model="user.passwordConfirm" ng-disabled="registering" type="password" required>
+		      	</md-input-container>
+		    </div>
+	      	<md-button ng-click="register()" class="md-primary">
+				Valider
+			</md-button>
+	    </form>
+	</md-content>
+</md-content>
