@@ -1,4 +1,4 @@
-<md-content style="height: 640px;">
+<md-content style="height: 600px;">
 	<md-toolbar>
 		<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
 			<md-button ng-click="viewEmployees()" aria-label="retour">
@@ -20,7 +20,7 @@
 		  	</div>
 			<div>
 				<div class="smallText">
-					{{employee.city}} - {{employee.country}}<br />
+					{{employee.city}} - {{employee.countryName}}<br />
 					<strong ng-if="employee.isCurrentlyEmployed">En poste</strong>
 					<strong ng-if="employee.isLookingForAJob">{{employee.isCurrentlyEmployed ? ' / ' : ''}}En recherche</strong>
 				</div>
@@ -33,13 +33,12 @@
 			</div>
 		</div>
 	</md-toolbar>
-	<div layout="row" layout-align="center center" ng-hide="employee.experiences" style="height: 390px;">
+	<md-content ng-hide="employee.experiences" style="height: 200px;" layout="row" layout-align="center center">
 		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
-	</div>
+	</md-content>
 	<md-content ng-if="employee && employee.experiences.length == 0" class="md-padding">
 		<p>Pas d'expérience ... pour le moment !</p>
 	</md-content>
-	<br />	
 	<section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
 		<md-subheader class="md-primary">
 			<strong>{{experience.job.name}}</strong> 
