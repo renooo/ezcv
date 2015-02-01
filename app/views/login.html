@@ -15,17 +15,16 @@
         	<label>Nom d'utilisateur</label>
         	<input ng-model="login.username" ng-disabled="authenticating">
       	</md-input-container>
-      	
       	<md-input-container>
         	<label>Mot de passe</label>
         	<input ng-model="login.password" type="password" ng-disabled="authenticating">
       	</md-input-container>
-
-		<md-button class="md-raised md-primary" ng-click="authenticate()" ng-disabled="authenticating">
+		<md-button class="md-primary" ng-click="authenticate()" ng-disabled="authenticating">
 			Connexion
 		</md-button>
 	</form>
 	<div layout="row" layout-align="center center">
+		<br />
 		{{error.detail}}
 	</div>
 	<div layout="row" layout-align="center center" ng-show="authenticating">

@@ -8,24 +8,30 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, $cookieStore, Employee) {
+  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, $cookieStore, $timeout, Employee) {
     $scope.employees = [];
     $scope.showFilters = false;
     $scope.me = null;
     $scope.myId = $cookieStore.get('my_id');
     $scope.loadingMe = false;
+    $scope.loading = false;
+    $scope.page = 1;
+    $scope.pageCount = null;
+    $scope.previousFullName = null;
     $scope.filters = {
         fullName: $location.search().fullName,
         isCurrentlyEmployed: $location.search().isCurrentlyEmployed,
         isLookingForAJob: $location.search().isLookingForAJob
     };
 
-    if($scope.myId){
-        $scope.loadingMe = true;
-        Employee.get({employeeId: $scope.myId}).$promise.then(function(employee){
-            $scope.me = employee;
-            $scope.loadingMe = false;
-        });
+    $scope.loadMe = function(){
+        if($scope.myId){
+            $scope.loadingMe = true;
+            Employee.get({employeeId: $scope.myId}).$promise.then(function(employee){
+                $scope.me = employee;
+                $scope.loadingMe = false;
+            });
+        };
     };
 
     $scope.openSidenav = function(){
@@ -35,7 +41,7 @@ angular.module('ezcvApp')
     $scope.toggleFilters = function(){
         $scope.filters.isCurrentlyEmployed = false;
         $scope.filters.isLookingForAJob = false;
-        $location.search({isCurrentlyEmployed: null, isLookingForAJob: null});
+        $location.search('isCurrentlyEmployed', null).search('isLookingForAJob', null);
         $scope.showFilters = !$scope.showFilters;
     };
 
@@ -44,8 +50,30 @@ angular.module('ezcvApp')
     };
 
     $scope.searchEmployees = function(){
+        $scope.employees = [];
+        $scope.page = 1;
+        $scope.pageCount = null;
+        $scope.loadEmployees();
+    };
+
+    $scope.clearSearch = function(){
+        $scope.filters.fullName = null;
+        $scope.searchEmployees();
+    };
+
+    $scope.loadMoreEmployees = function(){
+        $scope.page++;
+        $scope.loadEmployees();
+    };
+
+    $scope.loadEmployees = function(){
     	var params = {},
             p = 0;
+
+        if($scope.pageCount != null && $scope.page > $scope.pageCount){
+            $scope.page = $scope.pageCount;
+            return;
+        }
 
     	if(angular.isString($scope.filters.fullName)){
     		params['filter['+p+'][type]']  = 'like';
@@ -68,23 +96,30 @@ angular.module('ezcvApp')
             p++;
         }
 
-        $location.search($scope.filters);
-    	$scope.employees = null;
+        params.page = $scope.page;
+        $scope.loading = true;
 
-	    Employee.get(params, function(employees){
-	    	$scope.employees = employees._embedded.employees;
+        Employee.get(params).$promise.then(function(employees){
+            $scope.pageCount = employees.page_count;
 
-            angular.forEach($scope.employees, function(employee){
+            if($scope.pageCount == 1 && $scope.page == 1){
+                $scope.employees = [];
+            }
+
+            angular.forEach(employees._embedded.employees, function(employee){
                 employee.experiences = employee._embedded.experiences;
                 delete employee._embedded.experiences;
+                $scope.employees.push(employee);
             });
-	    });
+
+            $scope.loading = false;
+            $location.search($scope.filters);
+
+	    }).catch(function(){
+            $scope.loading = false;            
+        });
     };
 
-    $scope.clearSearch = function(){
-    	$scope.filters.fullName = null;
-    	$scope.searchEmployees();
-    };
-
-    $scope.searchEmployees();
+    $scope.loadEmployees();
+    $scope.loadMe();
   });

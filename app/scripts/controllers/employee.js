@@ -8,8 +8,9 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EmployeeCtrl', function ($scope, $routeParams, $resource, $location, Employee) {
+  .controller('EmployeeCtrl', function ($scope, $routeParams, $resource, $location, $window, Employee) {
     $scope.employee = null;
+    $window.scrollTo(0, 0);
 
     $scope.viewEmployees = function(){
         var filters = {

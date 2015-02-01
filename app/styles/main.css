@@ -19,3 +19,13 @@
 .clickable {
   cursor: pointer;
 }
+md-input-container.md-default-theme.date {
+  height: 6em;
+}
+md-input-container.md-default-theme.date > label {
+  height: 2.5em;
+}
+md-input-container.md-default-theme.md-input-focused.date > label,
+md-input-container.md-default-theme.md-input-has-value.date > label {
+  height: 0.7em;
+}

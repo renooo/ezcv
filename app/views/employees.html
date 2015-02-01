@@ -1,4 +1,4 @@
-<div>
+<div style="height: 600px; overflow: auto;" infinite-scroll="loadMoreEmployees()" can-load="!loading" threshold="100">
  	<main-sidenav></main-sidenav>
 	<md-toolbar>
 		<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
@@ -13,7 +13,7 @@
 			</md-button>
 		</div>
 	</md-toolbar>
-	<md-toolbar layout-align="space-between center" ng-show="showFilters || filters.isCurrentlyEmployed || filters.isLookingForAJob" class="md-primary md-hue-3">
+	<md-toolbar layout-align="space-between center" ng-show="showFilters || filters.isCurrentlyEmployed != null || filters.isLookingForAJob != null" class="md-primary md-hue-3">
 		<div class="md-toolbar-tools" style="font-size: 0.7em;">
 			<md-checkbox ng-change="searchEmployees()" ng-model="filters.isCurrentlyEmployed" aria-label="en poste" class="md-primary">
 				En poste
@@ -32,17 +32,14 @@
 			<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 		</md-button>
 	</div>
-	<div ng-hide="employees" layout="row" layout-align="center center">
-		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
-	</div>
-	<md-content class="md-padding" ng-show="employees.length == 0">
+	<md-content class="md-padding" ng-show="!loading && employees.length == 0">
 		Aucun résultat.
 	</md-content>
-	<md-list ng-show="employees && employees.length > 0">
+	<md-list md-swipe-right="openSidenav()" ng-show="employees && employees.length > 0">
 		<md-item ng-repeat="employee in employees" ng-click="viewEmployee(employee)" class="clickable">
 	    	<md-item-content>
 		      	<div class="md-tile-left">
-		        	<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
+		        	<img ng-if="employee.avatarUrl" ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
 		      	</div>
 		      	<div class="md-tile-content">
 			        <h3>{{employee.fullName}}</h3>
@@ -62,4 +59,7 @@
 	    	<md-divider></md-divider>
 		</md-item>
 	</md-list>
+	<div ng-show="loading" layout="row" layout-align="center center" style="height: 100px;">
+		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+	</div>
 </md-content>

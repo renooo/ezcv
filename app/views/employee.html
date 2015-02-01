@@ -16,7 +16,7 @@
 	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-show="employee.experiences">
 		<div class="md-toolbar-tools" layout-align="space-between center">	
 			<div>
-	    		<img ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
+	    		<img ng-if="employee.avatarUrl" ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
 		  	</div>
 			<div>
 				<div class="smallText">

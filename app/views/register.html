@@ -10,53 +10,53 @@
 	      	<div></div>
 		</div>
 	</md-toolbar>
-	<md-content class="md-padding" layout-align="center" layout="row">
-		<form name="registerForm" layout="column" layout-align="center center">
-	      	<div layout="row">
-				<md-input-container>
-		        	<label>Prénom</label>
-		        	<input name="firstName" ng-model="user.firstName" ng-disabled="registering">
-		        	<div ng-messages="registerForm.firstName.$error">
-						<div ng-repeat="error in errors.firstName" ng-message="error.code">{{error.message}}</div>
-					</div>
-		      	</md-input-container>
-				<md-input-container>
-		        	<label>Nom</label>
-		        	<input name="lastName" ng-model="user.lastName" ng-disabled="registering">
-		        	<div ng-messages="registerForm.lastName.$error">
-						<div ng-repeat="error in errors.lastName" ng-message="error.code">{{error.message}}</div>
-					</div>
-		      	</md-input-container>
-	      	</div>
-	      	<br />
+	<md-content class="md-padding">
+		<form name="registerForm" layout="column">
 			<md-input-container>
+	        	<label>Prénom</label>
+	        	<input name="firstName" ng-model="user.firstName" ng-disabled="registering">
+	        	<div ng-messages="registerForm.firstName.$error">
+					<div ng-repeat="error in errors.firstName" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
+			<md-input-container>
+	        	<label>Nom</label>
+	        	<input name="lastName" ng-model="user.lastName" ng-disabled="registering">
+	        	<div ng-messages="registerForm.lastName.$error">
+					<div ng-repeat="error in errors.lastName" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
+			<md-input-container class="date">
 	        	<label>Date de naissance</label>
 	        	<input name="birthdate" ng-model="user.birthdate" ng-disabled="registering" type="date" min="1900-01-01" max="1999-12-31">
 	        	<div ng-messages="registerForm.birthdate.$error">
 					<div ng-repeat="error in errors.birthdate" ng-message="error.code">{{error.message}}</div>
 				</div>
 	      	</md-input-container>	      	
-	      	<div layout="row">
-				<md-input-container>
-		        	<label>Code postal</label>
-		        	<input name="zipCode" ng-model="user.zipCode" ng-disabled="registering" type="number">
-		        	<div ng-messages="registerForm.zipCode.$error">
-						<div ng-repeat="error in errors.zipCode" ng-message="error.code">{{error.message}}</div>
-					</div>
-		      	</md-input-container>
-				<md-input-container>
-		        	<label>Ville</label>
-		        	<input name="city" ng-model="user.city" ng-disabled="registering">
-		        	<div ng-messages="registerForm.city.$error">
-						<div ng-repeat="error in errors.city" ng-message="error.code">{{error.message}}</div>
-					</div>
-		      	</md-input-container>
+	      	<div layout="row" layout-align="center center">
+				<md-checkbox name="hasDriversLicence" ng-model="user.hasDriversLicence" aria-label="titulaire du permis de conduire" class="md-primary" ng-disabled="registering">
+					Titulaire du permis de conduire
+				</md-checkbox>
 	      	</div>
+			<md-input-container>
+	        	<label>Code postal</label>
+	        	<input name="zipCode" ng-model="user.zipCode" ng-disabled="registering" type="number">
+	        	<div ng-messages="registerForm.zipCode.$error">
+					<div ng-repeat="error in errors.zipCode" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
+			<md-input-container>
+	        	<label>Ville</label>
+	        	<input name="city" ng-model="user.city" ng-disabled="registering">
+	        	<div ng-messages="registerForm.city.$error">
+					<div ng-repeat="error in errors.city" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
 			<md-input-container>
 	        	<label>Pays</label>
 	      	</md-input-container>
 	      	<div>
-	      		<select name="country" ng-model="user.country" ng-options="country.name for country in countries" ng-disabled="registering">
+	      		<select style="width: 100%;" name="country" ng-model="user.country" ng-options="country.name for country in countries" ng-disabled="registering">
 	        	</select>
 	      	</div>
 	      	<md-input-container>
@@ -66,7 +66,7 @@
 					<div ng-repeat="error in errors.currentJobName" ng-message="error.code">{{error.message}}</div>
 				</div>
 		    </md-input-container>
-		    <div layout="row">
+		    <div layout="row" layout-align="center center">
 				<md-checkbox name="isCurrentlyEmployed" ng-model="user.isCurrentlyEmployed" aria-label="en poste" class="md-primary" ng-disabled="registering">
 					En poste
 				</md-checkbox>
@@ -74,38 +74,46 @@
 					En recherche
 				</md-checkbox>
 		    </div>
-		    <div layout="row">
-				<md-input-container>
-		        	<label>Nom d'utilisateur</label>
-		        	<input name="userName" ng-model="user.userName" ng-disabled="registering">
-		        	 <div ng-messages="registerForm.userName.$error">
-						<div ng-repeat="error in errors.userName" ng-message="error.code">{{error.message}}</div>
-					</div>
-		      	</md-input-container>
-				<md-input-container>
-		        	<label>Addresse email</label>
-		        	<input name="email" ng-model="user.email" ng-disabled="registering">
-		        	<div ng-messages="registerForm.email.$error">
-						<div ng-repeat="error in errors.email" ng-message="error.code">{{error.message}}</div>
-					</div>
-		      	</md-input-container>
-		    </div>
-	      	<div layout="row">
-		      	<md-input-container>
-		        	<label>Mot de passe</label>
-		        	<input name="password" ng-model="user.password" ng-disabled="registering" type="password">
-		        	<div ng-messages="registerForm.password.$error">
-						<div ng-repeat="error in errors.password" ng-message="error.code">{{error.message}}</div>
-					</div>
-		      	</md-input-container>
-		      	<md-input-container>
-		        	<label>Confirmation</label>
-		        	<input name="passwordConfirm" ng-model="user.passwordConfirm" ng-disabled="registering" type="password">
-		      	</md-input-container>
-		    </div>
-	      	<md-button ng-click="register()" class="md-primary" ng-disabled="registering || countries.length == 0">
-				Valider
-			</md-button>
+			<md-input-container>
+	        	<label>Addresse email</label>
+	        	<input type="email" name="email" ng-model="user.email" ng-disabled="registering">
+	        	<div ng-messages="registerForm.email.$error">
+					<div ng-repeat="error in errors.email" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
+			<md-input-container>
+	        	<label>URL de votre avatar</label>
+	        	<input name="avatarUrl" type="url" ng-model="user.avatarUrl" ng-disabled="registering">
+	        	<div ng-messages="registerForm.avatarUrl.$error">
+					<div ng-repeat="error in errors.avatarUrl" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
+	      	<md-input-container>
+	        	<label>Nom d'utilisateur</label>
+	        	<input name="userName" ng-model="user.userName" ng-disabled="registering">
+	        	 <div ng-messages="registerForm.userName.$error">
+					<div ng-repeat="error in errors.userName" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
+	      	<md-input-container>
+	        	<label>Mot de passe</label>
+	        	<input name="password" ng-model="user.password" ng-disabled="registering" type="password">
+	        	<div ng-messages="registerForm.password.$error">
+					<div ng-repeat="error in errors.password" ng-message="error.code">{{error.message}}</div>
+				</div>
+	      	</md-input-container>
+	      	<md-input-container>
+	        	<label>Confirmez le mot de passe</label>
+	        	<input name="passwordConfirm" ng-model="user.passwordConfirm" ng-disabled="registering" type="password">
+	      	</md-input-container>
+	      	<div layout="row" layout-align="center center">
+		      	<md-button ng-click="register()" class="md-primary" ng-disabled="registering || countries.length == 0">
+					Valider
+				</md-button>
+			</div>
+			<div layout="row" layout-align="center center" ng-show="registering">
+				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+			</div>
 	    </form>
 	</md-content>
 </md-content>
