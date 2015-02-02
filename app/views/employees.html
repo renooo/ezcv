@@ -26,7 +26,7 @@
 	<div layout="row">
 		<md-input-container flex>
 		    <label>Saisir un nom pour rechercher un utilisateur</label>
-		    <input ng-model="filters.fullName" ng-change="searchEmployees()" type="search">
+		    <input ng-model="filters.fullName" ng-change="searchEmployees()" type="search" ng-model-options="{debounce: 500}">
 		</md-input-container>
 	    <md-button aria-label="effacer" ng-click="clearSearch()" ng-show="filters.fullName">
 			<md-icon icon="images/ic_clear_24px.svg" style="width: 24px; height: 24px;"></md-icon>

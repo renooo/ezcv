@@ -9,5 +9,5 @@
  */
 angular.module('ezcvApp')
   .factory('Employee', function ($resource, appConfig) {
-    return $resource(appConfig.apiEndpoint + '/employee/:employeeId', {employeeId: '@id'});
+    return $resource(appConfig.apiEndpoint + '/employee/:employeeId', {employeeId: '@id'}, {update: {method: 'PUT'}});
   });

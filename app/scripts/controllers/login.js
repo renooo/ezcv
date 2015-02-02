@@ -18,6 +18,11 @@ angular.module('ezcvApp')
   		grant_type: 'password'
   	};
 
+  if($cookieStore.get('my_id')){
+    $location.path('/employees');
+    return;
+  }
+
 	$scope.viewEmployees = function(){
 		$location.path('/employees');
 	};

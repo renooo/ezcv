@@ -23,6 +23,9 @@ angular.module('ezcvApp')
 	$scope.editMyCV = function(){
 		$location.path('/edit');
 	};
+	$scope.editMyProfile = function(){
+		$location.path('/profile');
+	};
 	$scope.register = function(){
 		$location.path('/register');
 	};

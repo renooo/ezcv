@@ -8,7 +8,7 @@
 
   <md-toolbar class="md-tall md-theme-light" ng-show="me">
     <div class="md-toolbar-tools">
-    	<img ng-src="{{me.avatarUrl}}" class="avatar" alt="{{me.fullName}}">
+    	<img ng-if="me.avatarUrl" ng-src="{{me.avatarUrl}}" class="avatar" alt="{{me.fullName}}">
     	<h1>
         	{{me.fullName}} <br />
         	<span class="smallText">{{me.email}}</span>

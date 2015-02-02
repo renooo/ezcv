@@ -17,10 +17,12 @@ angular
     'ngCookies',
     'infiniteScroll'
   ])
-  .config(function ($mdThemingProvider, $routeProvider) {
+  .config(function ($mdThemingProvider, $httpProvider, $routeProvider) {
      $mdThemingProvider.theme('default')
        .primaryPalette('light-green')
        .accentPalette('amber');
+
+    $httpProvider.interceptors.push('AuthInterceptor');
 
     $routeProvider
       .when('/main', {
@@ -50,6 +52,10 @@ angular
       .when('/edit', {
         templateUrl: 'views/edit.html',
         controller: 'EditCtrl'
+      })
+      .when('/profile', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl'
       })
       .when('/profile', {
         templateUrl: 'views/profile.html',
