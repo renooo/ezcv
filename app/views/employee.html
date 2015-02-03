@@ -13,7 +13,7 @@
 	      	</md-button>
 		</div>
 	</md-toolbar>
-	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-show="employee.experiences">
+	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-show="employee._embedded.experiences">
 		<div class="md-toolbar-tools" layout-align="space-between center">	
 			<div>
 	    		<img ng-if="employee.avatarUrl" ng-src="{{employee.avatarUrl}}" class="avatar" alt="{{employee.fullName}}">
@@ -33,28 +33,28 @@
 			</div>
 		</div>
 	</md-toolbar>
-	<md-content ng-hide="employee.experiences" style="height: 200px;" layout="row" layout-align="center center">
+	<md-content ng-hide="employee" style="height: 200px;" layout="row" layout-align="center center">
 		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 	</md-content>
-	<md-content ng-if="employee && employee.experiences.length == 0" class="md-padding">
+	<md-content ng-if="employee && employee._embedded.experiences.length == 0" class="md-padding">
 		<p>Pas d'expérience ... pour le moment !</p>
 	</md-content>
-	<section ng-repeat="experience in employee.experiences" ng-show="experience.job && experience.company">
+	<section ng-repeat="experience in employee._embedded.experiences" ng-show="employee">
 		<md-subheader class="md-primary">
-			<strong>{{experience.job.name}}</strong> 
-			chez <strong>{{experience.company.name}}</strong>
+			<strong>{{experience._embedded.job.name}}</strong> 
+			chez <strong>{{experience._embedded.company.name}}</strong>
 			de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> 
 			à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
 		</md-subheader>
 		<md-list layout="column">
-			<md-item ng-repeat="mission in experience.missions" ng-click="viewMission(employee)">
+			<md-item ng-repeat="mission in experience._embedded.missions" ng-click="viewMission(employee)">
 		    	<md-item-content>
 			      	<div class="md-tile-content">
 				        <h3>{{mission.name}}</h3>
-				        <h4 ng-show="mission.tags.length">
-							Mots-clés : <md-button class="md-primary" ng-repeat="tag in mission.tags">{{tag.label}}</md-button>
+				        <h4 ng-show="mission._embedded.tags.length">
+							Mots-clés : <md-button class="md-primary" ng-repeat="tag in mission._embedded.tags">{{tag.label}}</md-button>
 						</h4>
-						<md-divider ng-show="mission.tags.length"></md-divider>
+						<md-divider ng-show="mission._embedded.tags.length"></md-divider>
 				        <p>
 				        	{{mission.description}}
 				        </p>

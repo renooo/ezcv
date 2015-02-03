@@ -16,22 +16,14 @@ angular.module('ezcvApp')
   	$scope.loading = true;
   	$scope.updating = false;
 
-    $scope.viewEmployees = function(){
-        $location.path('/employees');
-    };
-
-    $scope.redirectAfterUpdate = function(){
-        $scope.viewEmployees();
-    };
-
     if(!$scope.myId){
       $location.path('/login');
       return;
     }
 
-  	Employee.get({employeeId: $scope.myId}).$promise.then(function(me){
-  		Country.get().$promise.then(function(countries){
-          $resource(me._embedded.country._links.self.href).get().$promise.then(function(country){
+    Employee.get({employeeId: $scope.myId}, function(me){
+      Country.get({}, function(countries){
+          $resource(me._embedded.country._links.self.href).get({}, function(country){
             $scope.countries = countries._embedded.countries;
             
             $scope.me = me;
@@ -41,8 +33,25 @@ angular.module('ezcvApp')
 
             $scope.loading = false;
           });
-  		});
-  	});
+      });
+    });
+
+    $scope.viewEmployees = function(){
+        $location.path('/employees');
+    };
+
+    $scope.redirectAfterUpdate = function(){
+        $scope.viewEmployees();
+    };
+
+    $scope.showToastMessage = function(message){
+        $mdToast.show(
+          $mdToast.simple()
+            .content(message)
+            .position('bottom right')
+            .hideDelay(6000)
+        );
+    };
 
     $scope.update = function(){
         var userData = angular.copy($scope.me);
@@ -51,46 +60,32 @@ angular.module('ezcvApp')
             userData.birthdate = $filter('date')(userData.birthdate, 'y-MM-dd');
         }
 
-        for(var fieldName in userData){
+        angular.forEach(userData, function(value, fieldName){
           if(angular.isDefined($scope.profileForm[fieldName])){
             $scope.profileForm[fieldName].$invalid = false;
             $scope.profileForm[fieldName].$valid = true;
           }
-        }
+        });
 
         $scope.errors = {};
         $scope.updating = true;
 
-        Employee.update({employeeId: userData.id}, userData).$promise.then(function(){
-          $mdToast.show(
-            $mdToast.simple()
-              .content('Vos données ont bien été mises à jour.')
-              .position('bottom right')
-              .hideDelay(6000)
-          );
+        Employee.update({employeeId: userData.id}, userData, function(){
+          $scope.updating = false;
+          $scope.showToastMessage('Vos données ont bien été mises à jour.');
           $scope.redirectAfterUpdate();
 
-        }).catch(function(result){
-
-          for(var fieldName in result.data.validation_messages){
-              for(var errorCode in result.data.validation_messages[fieldName]){
-                if(angular.isDefined($scope.profileForm[fieldName])){
-                  $scope.profileForm[fieldName].$invalid = true;
-                  $scope.profileForm[fieldName].$valid = false;
-                }
+        }, function(result){
+          angular.forEach(result.data.validation_messages, function(value, fieldName){
+              if(angular.isDefined($scope.profileForm[fieldName])){
+                $scope.profileForm[fieldName].$invalid = true;
+                $scope.profileForm[fieldName].$valid = false;
               }
-          }
+          });
 
           $window.scrollTo(0, 0);
-
-          $mdToast.show(
-            $mdToast.simple()
-              .content('La mise à jour a échoué.')
-              .position('bottom right')
-              .hideDelay(6000)
-          );
-
           $scope.updating = false;
+          $scope.showToastMessage('La mise à jour a échoué.');
           $scope.errors = result.data.validation_messages;
         });
       };

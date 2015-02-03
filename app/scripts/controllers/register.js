@@ -19,7 +19,7 @@ angular.module('ezcvApp')
         return;
     }
 
-	Country.get().$promise.then(function(countries){
+	Country.get({}, function(countries){
 		$scope.countries = countries._embedded.countries;
 	});
 
@@ -29,6 +29,15 @@ angular.module('ezcvApp')
 
     $scope.redirectAfterRegister = function(){
         $location.path('/login');
+    };    
+    
+    $scope.showToastMessage = function(message){
+        $mdToast.show(
+          $mdToast.simple()
+            .content(message)
+            .position('bottom right')
+            .hideDelay(6000)
+        );
     };
 
     $scope.register = function(){
@@ -53,34 +62,20 @@ angular.module('ezcvApp')
     		method: 'POST',
     		data: userData
     	}).success(function(data, status, headers, config){
-            $mdToast.show(
-                $mdToast.simple()
-                .content('L\'inscription a réussi. Veuillez vous connecter pour continuer.')
-                .position('bottom right')
-                .hideDelay(6000)
-            );
+            $scope.showToastMessage('L\'inscription a réussi. Veuillez vous connecter pour continuer.');
     		$scope.redirectAfterRegister();
 
     	}).error(function(data, status, headers, config){
-            for(var fieldName in data.validation_messages){
-                for(var errorCode in data.validation_messages[fieldName]){
-                    if(angular.isDefined($scope.registerForm[fieldName])){
-                      $scope.registerForm[fieldName].$invalid = true;
-                      $scope.registerForm[fieldName].$valid = false;
-                    }
+            angular.forEach(data.validation_messages, function(value, fieldName){
+                if(angular.isDefined($scope.registerForm[fieldName])){
+                    $scope.registerForm[fieldName].$invalid = true;
+                    $scope.registerForm[fieldName].$valid = false;
                 }
-            }
+            });
 
             $window.scrollTo(0, 0);
-
-            $mdToast.show(
-                $mdToast.simple()
-                  .content('L\'inscription a échoué.')
-                  .position('bottom right')
-                  .hideDelay(6000)
-            );
-
             $scope.registering = false;
+            $scope.showToastMessage('L\'inscription a échoué.');        
             $scope.errors = data.validation_messages;
     	});
     };

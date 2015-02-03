@@ -44,10 +44,10 @@
 		      	<div class="md-tile-content">
 			        <h3>{{employee.fullName}}</h3>
 			        <h4>{{employee.currentJobName}}</h4>
-			        <p ng-if="employee.experiences.length">
-			          Son CV liste <strong>{{employee.experiences.length}}</strong> expériences professionnelles.
+			        <p ng-if="employee._embedded.experiences.length">
+			          Son CV liste <strong>{{employee._embedded.experiences.length}}</strong> expériences professionnelles.
 			        </p>
-			        <p ng-if="!employee.experiences.length">
+			        <p ng-if="!employee._embedded.experiences.length">
 			        	Pas d'expérience ... pour le moment !
 			        </p>
 			        <p>

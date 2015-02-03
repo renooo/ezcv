@@ -49,13 +49,11 @@ angular.module('ezcvApp')
 
   			$cookieStore.put('access_token', data.access_token);
 
-  			Employee.get(filter).$promise.then(function(employees){
+  			Employee.get(filter, function(employees){
   				$cookieStore.put('my_id', employees._embedded.employees[0].id);
           $scope.authenticating = false;
           $scope.redirectAfterLogin();
   			});
-
-
   		}).
   		error(function(data, status, headers, config) {
   			$scope.error = data;

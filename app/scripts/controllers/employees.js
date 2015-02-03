@@ -27,7 +27,7 @@ angular.module('ezcvApp')
     $scope.loadMe = function(){
         if($scope.myId){
             $scope.loadingMe = true;
-            Employee.get({employeeId: $scope.myId}).$promise.then(function(employee){
+            Employee.get({employeeId: $scope.myId}, function(employee){
                 $scope.me = employee;
                 $scope.loadingMe = false;
             });
@@ -99,7 +99,7 @@ angular.module('ezcvApp')
         params.page = $scope.page;
         $scope.loading = true;
 
-        Employee.get(params).$promise.then(function(employees){
+        Employee.get(params, function(employees){
             $scope.pageCount = employees.page_count;
 
             if($scope.pageCount == 1 && $scope.page == 1){
@@ -107,15 +107,13 @@ angular.module('ezcvApp')
             }
 
             angular.forEach(employees._embedded.employees, function(employee){
-                employee.experiences = employee._embedded.experiences;
-                delete employee._embedded.experiences;
                 $scope.employees.push(employee);
             });
 
             $scope.loading = false;
             $location.search($scope.filters);
 
-	    }).catch(function(){
+	    }, function(){
             $scope.loading = false;            
         });
     };
