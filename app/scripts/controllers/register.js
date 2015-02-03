@@ -37,9 +37,12 @@ angular.module('ezcvApp')
         if(angular.isDefined(userData.birthdate)){
             userData.birthdate = $filter('date')(userData.birthdate, 'y-MM-dd');
         }
-
+        
         for(var fieldName in userData){
+          if(angular.isDefined($scope.registerForm[fieldName])){
             $scope.registerForm[fieldName].$invalid = false;
+            $scope.registerForm[fieldName].$valid = true;
+          }
         }
 
         $scope.errors = {};
@@ -61,7 +64,10 @@ angular.module('ezcvApp')
     	}).error(function(data, status, headers, config){
             for(var fieldName in data.validation_messages){
                 for(var errorCode in data.validation_messages[fieldName]){
-                   $scope.registerForm[fieldName].$invalid = true;
+                    if(angular.isDefined($scope.registerForm[fieldName])){
+                      $scope.registerForm[fieldName].$invalid = true;
+                      $scope.registerForm[fieldName].$valid = false;
+                    }
                 }
             }
 

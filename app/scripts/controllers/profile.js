@@ -54,6 +54,7 @@ angular.module('ezcvApp')
         for(var fieldName in userData){
           if(angular.isDefined($scope.profileForm[fieldName])){
             $scope.profileForm[fieldName].$invalid = false;
+            $scope.profileForm[fieldName].$valid = true;
           }
         }
 
@@ -73,7 +74,10 @@ angular.module('ezcvApp')
 
           for(var fieldName in result.data.validation_messages){
               for(var errorCode in result.data.validation_messages[fieldName]){
-                 $scope.profileForm[fieldName].$invalid = true;
+                if(angular.isDefined($scope.profileForm[fieldName])){
+                  $scope.profileForm[fieldName].$invalid = true;
+                  $scope.profileForm[fieldName].$valid = false;
+                }
               }
           }
 
@@ -88,8 +92,6 @@ angular.module('ezcvApp')
 
           $scope.updating = false;
           $scope.errors = result.data.validation_messages;
-          console.debug('erreurs');
-          console.debug(result.data.validation_messages);
         });
       };
   });
