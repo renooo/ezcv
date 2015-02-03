@@ -8,13 +8,13 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('RegisterCtrl', function ($scope, $window, $location, $cookieStore, $mdToast, $animate, $http, $filter, appConfig, Country) {
+  .controller('RegisterCtrl', function ($scope, $window, $location, $mdToast, $animate, $http, $filter, appConfig, Country) {
 	$scope.user = {country: {id: 'FR'}};
 	$scope.countries = [];
 	$scope.registering = false;
     $scope.errors = {};
 
-    if($cookieStore.get('my_id')){
+    if(localStorage.my_id){
         $location.path('/employees');
         return;
     }

@@ -8,9 +8,9 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('ProfileCtrl', function ($scope, $window, $location, $mdToast, $animate, $cookieStore, $filter, $resource, Employee, Country) {
+  .controller('ProfileCtrl', function ($scope, $window, $location, $mdToast, $animate, $filter, $resource, Employee, Country) {
   	$scope.me = null;
-  	$scope.myId = $cookieStore.get('my_id');
+  	$scope.myId = localStorage.my_id;
   	$scope.countries = [];
     $scope.errors = {};
   	$scope.loading = true;

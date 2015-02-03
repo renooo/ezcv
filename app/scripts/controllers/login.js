@@ -8,7 +8,7 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('LoginCtrl', function ($scope, $location, $http, $cookieStore, appConfig, Employee) {
+  .controller('LoginCtrl', function ($scope, $location, $http, appConfig, Employee) {
   	$scope.authenticating = false;
   	$scope.error = null;
   	$scope.login = {
@@ -18,7 +18,7 @@ angular.module('ezcvApp')
   		grant_type: 'password'
   	};
 
-  if($cookieStore.get('my_id')){
+  if(localStorage.my_id){
     $location.path('/employees');
     return;
   }
@@ -47,10 +47,10 @@ angular.module('ezcvApp')
   				'filter[0][value]': $scope.login.username
   			};
 
-  			$cookieStore.put('access_token', data.access_token);
+  			localStorage.access_token = data.access_token;
 
   			Employee.get(filter, function(employees){
-  				$cookieStore.put('my_id', employees._embedded.employees[0].id);
+  				localStorage.my_id = employees._embedded.employees[0].id;
           $scope.authenticating = false;
           $scope.redirectAfterLogin();
   			});

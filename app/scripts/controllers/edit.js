@@ -8,9 +8,9 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EditCtrl', function ($scope, $location, $cookieStore, Employee) {
+  .controller('EditCtrl', function ($scope, $location, Employee) {
   	$scope.me = null;
-  	$scope.myId = $cookieStore.get('my_id');
+  	$scope.myId = localStorage.my_id;
 
 	$scope.viewEmployees = function(){
 		//confirm

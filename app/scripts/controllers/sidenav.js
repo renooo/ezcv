@@ -8,8 +8,8 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('SidenavCtrl', function($scope, $mdSidenav, $location, $cookieStore) {
-  	$scope.myId = $cookieStore.get('my_id');
+  .controller('SidenavCtrl', function($scope, $mdSidenav, $location) {
+  	$scope.myId = localStorage.my_id;
 
 	$scope.close = function() {
 	    return $mdSidenav('sidenav').close();

@@ -8,11 +8,11 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, $cookieStore, $timeout, Employee) {
+  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, $timeout, Employee) {
     $scope.employees = [];
     $scope.showFilters = false;
     $scope.me = null;
-    $scope.myId = $cookieStore.get('my_id');
+    $scope.myId = localStorage.my_id;
     $scope.loadingMe = false;
     $scope.loading = false;
     $scope.page = 1;

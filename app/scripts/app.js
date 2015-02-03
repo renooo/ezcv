@@ -14,7 +14,6 @@ angular
     'ngResource',
     'ngRoute',
     'ngMaterial',
-    'ngCookies',
     'infiniteScroll'
   ])
   .config(function ($mdThemingProvider, $httpProvider, $routeProvider) {
