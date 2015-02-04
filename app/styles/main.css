@@ -10,7 +10,7 @@
   width: 96px;
   margin: 32px; 
 }
-.employeeToolbarTitle {
+.toolbar-title {
   color: #ffffff;
 }
 .smallText {
@@ -28,4 +28,21 @@ md-input-container.md-default-theme.date > label {
 md-input-container.md-default-theme.md-input-focused.date > label,
 md-input-container.md-default-theme.md-input-has-value.date > label {
   height: 0.7em;
+}
+.bottom-right-corner {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+}
+.inline-list-icon {
+    display: inline-block;
+    height: 24px;
+    width: 24px; 
+}
+.inline-list-icon-label {
+    padding-left: 20px;
+    display: inline-block;
+    margin-top: -5px;
+    height: 24px;
+    vertical-align: middle; 
 }

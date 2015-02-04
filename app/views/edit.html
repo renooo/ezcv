@@ -4,13 +4,41 @@
 			<md-button ng-click="viewEmployees()" aria-label="retour">
 				<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 			</md-button>
-			<h1 class="employeeToolbarTitle">
+			<h1 class="toolbar-title">
 	        	Modifier mon CV
 	      	</h1>
-	      	<div></div>
+	      	<md-button aria-label="contacter par mail" ng-click="udpate()" ng-disabled="!me">
+	      		<md-icon icon="images/ic_save_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+	      	</md-button>
 		</div>
 	</md-toolbar>
-	<md-content class="md-padding" layout-align="center" layout="row">
-		Bientôt disponible ☺ !
+	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-show="me">
+		<div class="md-toolbar-tools">
+			<h2>
+				Mes expériences
+				<span ng-show="me"> ({{me._embedded.experiences.length}})</span>
+			</h2>
+		</div>
+	</md-toolbar>
+	<md-content ng-hide="me" style="height: 200px;" layout="row" layout-align="center center">
+		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+	</md-content>
+	<md-content ng-show="me">
+		<md-list>
+			<md-item ng-repeat="experience in me._embedded.experiences" class="clickable" ng-click="showExperienceBottomSheet(experience)">
+				<md-item-content>
+					<div class="md-tile-content">
+						<strong>{{experience._embedded.job.name}}</strong> 
+						chez <strong>{{experience._embedded.company.name}}</strong>
+						de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> 
+						à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
+					</div>
+				</md-item-content>
+				<md-divider></md-divider>
+			</md-item>
+		</md-list>
+		<md-button ng-click="newExperience()" class="md-fab md-primary bottom-right-corner" aria-label="nouvelle expérience">
+            <md-icon icon="images/ic_playlist_add_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+        </md-button>
 	</md-content>
 </md-content>

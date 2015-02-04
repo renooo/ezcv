@@ -1,17 +1,17 @@
 'use strict';
 
-describe('Controller: SubscribeCtrl', function () {
+describe('Controller: ExperiencelistbottomsheetCtrl', function () {
 
   // load the controller's module
   beforeEach(module('ezcvApp'));
 
-  var SubscribeCtrl,
+  var ExperiencelistbottomsheetCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    SubscribeCtrl = $controller('SubscribeCtrl', {
+    ExperiencelistbottomsheetCtrl = $controller('ExperiencelistbottomsheetCtrl', {
       $scope: scope
     });
   }));
