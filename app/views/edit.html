@@ -7,16 +7,18 @@
 			<h1 class="toolbar-title">
 	        	Modifier mon CV
 	      	</h1>
-	      	<md-button aria-label="contacter par mail" ng-click="udpate()" ng-disabled="!me">
-	      		<md-icon icon="images/ic_save_24px.svg" style="width: 24px; height: 24px;"></md-icon>
-	      	</md-button>
+	      	<div>
+		      	<md-button aria-label="contacter par mail" ng-click="udpate()" ng-show="me">
+		      		<md-icon icon="images/ic_save_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+		      	</md-button>
+		    </div>
 		</div>
 	</md-toolbar>
 	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-show="me">
 		<div class="md-toolbar-tools">
 			<h2>
 				Mes expériences
-				<span ng-show="me"> ({{me._embedded.experiences.length}})</span>
+				<div class="count" ng-show="me">{{me._embedded.experiences.length}}</div>
 			</h2>
 		</div>
 	</md-toolbar>
@@ -30,8 +32,11 @@
 					<div class="md-tile-content">
 						<strong>{{experience._embedded.job.name}}</strong> 
 						chez <strong>{{experience._embedded.company.name}}</strong>
-						de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> 
-						à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
+						de <strong>{{experience.dateStart | date: 'MMM yyyy'}}</strong> 
+						à <strong>{{experience.dateEnd | date: 'MMM yyyy'}}</strong>
+					</div>
+					<div class="md-tile-right">
+						<div class="count">{{experience._embedded.missions.length}}</div>
 					</div>
 				</md-item-content>
 				<md-divider></md-divider>

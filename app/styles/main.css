@@ -46,3 +46,15 @@ md-input-container.md-default-theme.md-input-has-value.date > label {
     height: 24px;
     vertical-align: middle; 
 }
+.count {
+  display: inline-block;
+  background-color: rgb(139,195,74);
+  border-radius: 12px;
+  width: 24px;
+  height: 24px;
+  font-size: 0.5em;
+  color: #ffffff;
+  margin: 12px;
+  padding-top: 7px;
+  text-align: center; 
+}

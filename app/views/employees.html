@@ -45,7 +45,11 @@
 			        <h3>{{employee.fullName}}</h3>
 			        <h4>{{employee.currentJobName}}</h4>
 			        <p ng-if="employee._embedded.experiences.length">
-			          Son CV liste <strong>{{employee._embedded.experiences.length}}</strong> expériences professionnelles.
+			          Son CV liste <strong>{{employee._embedded.experiences.length}}</strong>
+						<ng-pluralize count="employee._embedded.experiences.length"
+								  when="{'one': 'expérience professionnelle',
+					                     'other': 'expériences professionnelles'}">
+						</ng-pluralize>.
 			        </p>
 			        <p ng-if="!employee._embedded.experiences.length">
 			        	Pas d'expérience ... pour le moment !

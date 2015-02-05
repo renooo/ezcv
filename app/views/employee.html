@@ -27,7 +27,7 @@
 			</div>
 
 	        <div class="smallText">
-	        	<strong>{{employee.birthdate | dateFormat: 'dd/MM/yyyy'}}</strong><br />
+	        	<strong>{{employee.birthdate | date: 'dd/MM/yyyy'}}</strong><br />
 	        	Permis :
 	        	<strong>{{employee.hasDriversLicence ? 'oui' : 'non'}}</strong><br />
 			</div>
@@ -43,8 +43,8 @@
 		<md-subheader class="md-primary">
 			<strong>{{experience._embedded.job.name}}</strong> 
 			chez <strong>{{experience._embedded.company.name}}</strong>
-			de <strong>{{experience.dateStart | dateFormat: 'MMM yyyy'}}</strong> 
-			à <strong>{{experience.dateEnd | dateFormat: 'MMM yyyy'}}</strong>
+			de <strong>{{experience.dateStart | date: 'MMM yyyy'}}</strong> 
+			à <strong>{{experience.dateEnd | date: 'MMM yyyy'}}</strong>
 		</md-subheader>
 		<md-list layout="column">
 			<md-item ng-repeat="mission in experience._embedded.missions" ng-click="viewMission(employee)">

@@ -60,6 +60,10 @@ angular
         templateUrl: 'views/profile.html',
         controller: 'ProfileCtrl'
       })
+      .when('/edit/experience/:experienceId', {
+        templateUrl: 'views/editexperience.html',
+        controller: 'EditexperienceCtrl'
+      })
       .otherwise({
         redirectTo: '/employees'
       });

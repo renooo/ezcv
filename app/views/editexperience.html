@@ -1,0 +1,45 @@
+<md-content>
+	<md-toolbar>
+		<div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+			<md-button ng-click="editCV()" aria-label="retour">
+				<md-icon icon="images/ic_arrow_back_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+			</md-button>
+			<h1 class="toolbar-title">
+	        	Modifier une expérience
+	      	</h1>
+	      	<div></div>
+		</div>
+	</md-toolbar>
+	<md-content class="md-padding">
+		<form name="experienceForm" layout="column" ng-hide="loading">
+			<md-input-container>
+	        	<label>Poste occupé</label>
+	      	</md-input-container>
+	      	<div>
+	      		<select style="width: 100%;" name="job" ng-model="experience._embedded.job" ng-options="job.name for job in jobs track by job.id" ng-disabled="updating">
+	        	</select>
+	      	</div>
+			<md-input-container>
+	        	<label>Dans l'entreprise</label>
+	      	</md-input-container>
+	      	<div>
+	      		<select style="width: 100%;" name="company" ng-model="experience._embedded.company" ng-options="company.name for company in companies track by company.id" ng-disabled="updating">
+	        	</select>
+	      	</div>
+			<md-input-container class="date">
+	        	<label>Date de début</label>
+	        	<input required name="dateStart" ng-model="experience.dateStart" ng-disabled="updating" type="date" min="1900-01-01">
+	        	<div ng-messages="errors.dateStart">
+					<div ng-repeat="(code, message) in errors.dateStart" ng-message="code">{{message}}</div>
+				</div>
+	      	</md-input-container>
+				<md-input-container class="date">
+	        	<label>Date de fin</label>
+	        	<input name="dateEnd" ng-model="experience.dateEnd" ng-disabled="updating" type="date" min="1900-01-01">
+	        	<div ng-messages="errors.dateEnd">
+					<div ng-repeat="(code, message) in errors.dateEnd" ng-message="code">{{message}}</div>
+				</div>
+	      	</md-input-container>		 
+		</form>
+	</md-content>
+</md-content>

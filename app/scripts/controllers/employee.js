@@ -8,7 +8,7 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EmployeeCtrl', function ($scope, $routeParams, $resource, $location, $window, $q, Employee) {
+  .controller('EmployeeCtrl', function ($scope, $routeParams, $resource, $location, $window, $q,  Employee) {
     $scope.employee = null;
     $window.scrollTo(0, 0);
 
@@ -22,9 +22,13 @@ angular.module('ezcvApp')
     };
     
     Employee.get({employeeId: $routeParams.employeeId}, function(employee){
+        employee.birthdate = new Date(employee.birthdate);
+        
     	angular.forEach(employee._embedded.experiences, function(experience){
             experience._embedded.job = $resource(experience._embedded.job._links.self.href).get();
             experience._embedded.company = $resource(experience._embedded.company._links.self.href).get();
+            experience.dateStart = new Date(experience.dateStart.date);
+            experience.dateEnd = new Date(experience.dateEnd.date);
     	});
 
         $q.all(employee._embedded.experiences.map(function(experience){

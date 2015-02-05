@@ -8,8 +8,9 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('ProfileCtrl', function ($scope, $window, $location, $mdToast, $animate, $filter, $resource, Employee, Country) {
+  .controller('ProfileCtrl', function ($scope, $window, $location, $mdDialog, $mdToast, $animate, $filter, $resource, Employee, Country) {
   	$scope.me = null;
+    $scope.meOriginal = null;
   	$scope.myId = localStorage.my_id;
   	$scope.countries = [];
     $scope.errors = {};
@@ -31,17 +32,33 @@ angular.module('ezcvApp')
             $scope.me.zipCode = parseInt(me.zipCode);
             $scope.me.country = country;
 
+            $scope.meOriginal = angular.copy($scope.me);
+
             $scope.loading = false;
           });
       });
     });
 
     $scope.viewEmployees = function(){
-        $location.path('/employees');
+        if(angular.equals($scope.me, $scope.meOriginal)) {
+          $location.path('/employees');
+          return;
+        };
+
+        var confirm = $mdDialog.confirm()
+          .title('Quitter sans sauvegarder')
+          .content('Êtes-vous certain(e) de vouloir quitter sans sauvegarder ?\nToutes les modifications seront perdues.')
+          .ariaLabel('Confirmation')
+          .ok('Quitter')
+          .cancel('Continuer l\'édition');
+
+        $mdDialog.show(confirm).then(function() {
+          $location.path('/employees');
+        });
     };
 
     $scope.redirectAfterUpdate = function(){
-        $scope.viewEmployees();
+        $location.path('/employees');
     };
 
     $scope.showToastMessage = function(message){
