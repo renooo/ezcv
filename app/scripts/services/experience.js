@@ -9,5 +9,5 @@
  */
 angular.module('ezcvApp')
   .factory('Experience', function ($resource, appConfig) {
-    return $resource(appConfig.apiEndpoint + '/experience/:experienceId', {experienceId: '@id'});
+    return $resource(appConfig.apiEndpoint + '/experience/:experienceId', {experienceId: '@id'}, {update: {method: 'PUT'}});
   });

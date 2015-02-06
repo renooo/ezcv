@@ -39,12 +39,12 @@
 	<md-content ng-if="employee && employee._embedded.experiences.length == 0" class="md-padding">
 		<p>Pas d'expérience ... pour le moment !</p>
 	</md-content>
-	<section ng-repeat="experience in employee._embedded.experiences" ng-show="employee">
+	<section ng-repeat="experience in employee._embedded.experiences | filter: filterExperiences" ng-show="employee">
 		<md-subheader class="md-primary">
 			<strong>{{experience._embedded.job.name}}</strong> 
 			chez <strong>{{experience._embedded.company.name}}</strong>
-			de <strong>{{experience.dateStart | date: 'MMM yyyy'}}</strong> 
-			à <strong>{{experience.dateEnd | date: 'MMM yyyy'}}</strong>
+			<span>{{experience.dateEnd ? 'de' : 'depuis'}} <strong>{{experience.dateStart | date: 'MMM yyyy'}}</strong></span> 
+			<span ng-show="experience.dateEnd">à <strong>{{experience.dateEnd | date: 'MMM yyyy'}}</strong></span>
 		</md-subheader>
 		<md-list layout="column">
 			<md-item ng-repeat="mission in experience._embedded.missions" ng-click="viewMission(employee)">

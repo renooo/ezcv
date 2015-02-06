@@ -8,13 +8,13 @@
 	        	Modifier mon CV
 	      	</h1>
 	      	<div>
-		      	<md-button aria-label="contacter par mail" ng-click="udpate()" ng-show="me">
+		      	<md-button aria-label="contacter par mail" ng-click="update()" ng-show="me" ng-disabled="loading">
 		      		<md-icon icon="images/ic_save_24px.svg" style="width: 24px; height: 24px;"></md-icon>
 		      	</md-button>
 		    </div>
 		</div>
 	</md-toolbar>
-	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-show="me">
+	<md-toolbar class="md-primary md-hue-3 md-whiteframe-z1" ng-hide="loading">
 		<div class="md-toolbar-tools">
 			<h2>
 				Mes expériences
@@ -22,18 +22,21 @@
 			</h2>
 		</div>
 	</md-toolbar>
-	<md-content ng-hide="me" style="height: 200px;" layout="row" layout-align="center center">
+	<md-content ng-show="loading" style="height: 200px;" layout="row" layout-align="center center">
 		<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 	</md-content>
-	<md-content ng-show="me">
+	<md-content ng-hide="loading">
 		<md-list>
 			<md-item ng-repeat="experience in me._embedded.experiences" class="clickable" ng-click="showExperienceBottomSheet(experience)">
 				<md-item-content>
-					<div class="md-tile-content">
+					<div class="md-tile-content" ng-show="experience._embedded.job && experience._embedded.company && experience.dateStart">
 						<strong>{{experience._embedded.job.name}}</strong> 
 						chez <strong>{{experience._embedded.company.name}}</strong>
-						de <strong>{{experience.dateStart | date: 'MMM yyyy'}}</strong> 
-						à <strong>{{experience.dateEnd | date: 'MMM yyyy'}}</strong>
+						<span>{{experience.dateEnd ? 'de' : 'depuis'}} <strong>{{experience.dateStart | date: 'MMM yyyy'}}</strong></span> 
+						<span ng-show="experience.dateEnd">à <strong>{{experience.dateEnd | date: 'MMM yyyy'}}</strong></span>
+					</div>
+					<div class="md-tile-content" ng-hide="experience._embedded.job && experience._embedded.company && experience.dateStart">
+						Nouvelle expérience à compléter
 					</div>
 					<div class="md-tile-right">
 						<div class="count">{{experience._embedded.missions.length}}</div>
@@ -42,7 +45,7 @@
 				<md-divider></md-divider>
 			</md-item>
 		</md-list>
-		<md-button ng-click="newExperience()" class="md-fab md-primary md-hue-1 bottom-right-corner" aria-label="nouvelle expérience">
+		<md-button ng-click="newExperience()" ng-disabled="loading" class="md-fab md-primary md-hue-1 bottom-right-corner" aria-label="nouvelle expérience">
             <md-icon icon="images/ic_playlist_add_24px.svg" style="width: 24px; height: 24px;"></md-icon>
         </md-button>
 	</md-content>

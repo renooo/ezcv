@@ -8,12 +8,13 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EditexperienceCtrl', function ($scope, $rootScope, $location, $routeParams, $q, $mdDialog, Job, Company) {
+  .controller('EditexperienceCtrl', function ($scope, $rootScope, $location, $routeParams, $q, $mdDialog, Job, Company, Mission) {
   	$scope.me = $rootScope.me;
   	$scope.experience = null;
   	$scope.jobs = [];
   	$scope.companies = [];
   	$scope.loading = true;
+    $scope.creating = false;
 
   	$scope.editCV = function(){
 		  $location.path('/edit');
@@ -52,6 +53,20 @@ angular.module('ezcvApp')
       });
     };
 
+    $scope.newMission = function(){
+      if(!$scope.experience){
+        return;
+      }
+      $scope.creating = true;
+      Mission.save({experience: $scope.experience.id}, function(mission){
+        if(!angular.isArray($scope.experience._embedded.missions)){
+          $scope.experience._embedded.missions = [];
+        }
+        $scope.experience._embedded.missions.push(mission);
+        $scope.creating = false;
+      });
+    };
+
     $scope.deleteMission = function(mission){
       var confirm = $mdDialog.confirm()
         .title('Supprimer')
@@ -67,7 +82,7 @@ angular.module('ezcvApp')
       });
     };
     
-    if(!angular.isDefined($scope.me) ){
+    if(!angular.isDefined($scope.me)){
       $location.path('/edit');
       return;
     }

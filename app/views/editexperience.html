@@ -29,7 +29,7 @@
 	      	<div layout="row" layout-align="center center">
 				<md-input-container class="date">
 		        	<label>Date de début</label>
-		        	<input required name="dateStart" ng-model="experience.dateStart" ng-disabled="updating" type="date" min="1900-01-01">
+		        	<input name="dateStart" ng-model="experience.dateStart" ng-disabled="updating" type="date" min="1900-01-01">
 		      	</md-input-container>
 				<md-input-container class="date">
 		        	<label>Date de fin</label>
@@ -76,5 +76,8 @@
 				<md-divider></md-divider>
 			</md-item>
 		</md-list>
+		<md-button ng-click="newMission()" ng-disabled="creating" class="md-fab md-primary md-hue-1 bottom-right-corner" aria-label="nouvelle mission">
+            <md-icon icon="images/ic_playlist_add_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+        </md-button>
 	</md-content>
 </md-content>
