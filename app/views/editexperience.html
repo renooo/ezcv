@@ -47,8 +47,8 @@
 		<md-list>
 			<md-item ng-repeat="mission in experience._embedded.missions">
 				<md-item-content ng-class-even="'mission-item'">
-					<h4>Mission n°{{$index+1}}</h4>
 					<form class="md-tile-content">
+						<h4>Mission n°{{$index+1}}</h4>
 						<md-input-container>
 				        	<label>Intitulé</label>
 				        	<input name="name" ng-model="mission.name">
@@ -57,8 +57,19 @@
 							<label>Description</label>
 							<textarea ng-model="mission.description" columns="1" rows="3" md-maxlength="500"></textarea>
 						</md-input-container>
-						<div class="md-actions">
-							<md-button class="md-primary">Supprimer</md-button>
+						<h4>
+							Mots-clés
+							<md-button class="md-primary" ng-click="addTags(mission)">Ajouter</md-button>
+						</h4>
+						<div>
+							<md-button class="md-raised" style="margin-right: 10px; margin-bottom: 10px;" ng-repeat="tag in mission._embedded.tags" ng-click="removeTag(mission, tag)">
+								<md-icon class="inline-list-icon" icon="images/ic_label_outline_24px.svg" style="width: 18px; height: 18px;"></md-icon>
+								<span class="inline-list-icon-label">{{tag.label}}</span>
+							</md-button>
+						</div>
+						<br />
+						<div layout="row" layout-align="end center">
+							<md-button class="md-primary" ng-click="deleteMission(mission)">Supprimer</md-button>
 						</div>				
 					</form>
 				</md-item-content>

@@ -8,19 +8,64 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EditexperienceCtrl', function ($scope, $rootScope, $location, $routeParams, $q, Job, Company) {
+  .controller('EditexperienceCtrl', function ($scope, $rootScope, $location, $routeParams, $q, $mdDialog, Job, Company) {
   	$scope.me = $rootScope.me;
   	$scope.experience = null;
-    //$scope.experienceOriginal = null;
   	$scope.jobs = [];
   	$scope.companies = [];
   	$scope.loading = true;
 
   	$scope.editCV = function(){
-      //if(angular.equals($scope.experience, $scope.experienceOriginal)){
-  		  location.path('/edit');
-      //}
+		  $location.path('/edit');
   	};
+
+    $scope.removeTag = function(mission, tag){
+      var confirm = $mdDialog.confirm()
+        .title('Retirer')
+        .content('Êtes-vous certain(e) de vouloir retirer ce mot-clé de la liste ?')
+        .ariaLabel('Confirmation')
+        .ok('Retirer')
+        .cancel('Annuler');
+
+      $mdDialog.show(confirm).then(function() {
+        mission._embedded.tags = mission._embedded.tags.filter(function(t){
+          return (t.id != tag.id);
+        });
+      });
+    };
+
+    $scope.addTags = function(mission){
+      $mdDialog.show({
+        controller: 'AddtagsdialogCtrl',
+        templateUrl: 'views/addtagsdialog.html'
+      })
+      .then(function(tags) {
+        if(!angular.isDefined(tags) || !angular.isArray(tags)){
+          return;
+        }
+
+        angular.forEach(tags, function(tag){
+          if(!angular.isDefined(mission._embedded.tags.filter(function(t){ return t.id == tag.id; })[0])){
+            mission._embedded.tags.push(tag);
+          }
+        });
+      });
+    };
+
+    $scope.deleteMission = function(mission){
+      var confirm = $mdDialog.confirm()
+        .title('Supprimer')
+        .content('Êtes-vous certain(e) de vouloir supprimer cette mission ?')
+        .ariaLabel('Confirmation')
+        .ok('Supprimer')
+        .cancel('Annuler');
+
+      $mdDialog.show(confirm).then(function() {
+        $scope.experience._embedded.missions = $scope.experience._embedded.missions.filter(function(m){
+          return (m.id != mission.id);
+        });
+      });
+    };
     
     if(!angular.isDefined($scope.me) ){
       $location.path('/edit');
@@ -46,7 +91,6 @@ angular.module('ezcvApp')
       }).$promise
 
     ]).then(function(){
-        //$scope.experienceOriginal = angular.copy($scope.experience);
         $scope.loading = false;
     });
 

@@ -1,0 +1,15 @@
+<md-dialog aria-label="Ajouter des mots-clés">
+  <md-content>
+    <md-subheader class="md-sticky-no-effect">Ajouter des mots-clés</md-subheader>
+    <div layout="row" layout-align="center center">
+    	<md-progress-circular md-mode="indeterminate" ng-hide="tags.length"></md-progress-circular>
+    </div>
+    <md-checkbox ng-repeat="tag in tags" class="md-primary" ng-model="selection[tag.id]" aria-label="{{tag.label}}">
+    	{{tag.label}}
+  	</md-checkbox>
+  </md-content>
+  <div class="md-actions" layout="row">
+    <md-button ng-click="cancel()">Annuler</md-button>
+    <md-button ng-click="add()" class="md-primary">Ajouter</md-button>
+  </div>
+</md-dialog>
