@@ -9,5 +9,5 @@
  */
 angular.module('ezcvApp')
   .factory('Mission', function ($resource, appConfig) {
-    return $resource(appConfig.apiEndpoint + '/mission/:missionId', {missionId: '@id'});
+    return $resource(appConfig.apiEndpoint + '/mission/:missionId', {missionId: '@id'}, {update: {method: 'PUT'}});
   });

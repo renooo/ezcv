@@ -8,7 +8,7 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EditCtrl', function ($scope, $rootScope, $location, $filter, $q, $resource, $mdBottomSheet, $mdDialog, $mdToast, Employee, Experience) {
+  .controller('EditCtrl', function ($scope, $rootScope, $location, $filter, $q, $resource, $mdBottomSheet, $mdDialog, $mdToast, Employee, Experience, Mission) {
   	$scope.me = null;
     $scope.meOriginal = null;
   	$scope.myId = localStorage.my_id;
@@ -45,9 +45,15 @@ angular.module('ezcvApp')
             promises.push(Experience.remove({experienceId: newExperience.id}).$promise);
           });
 
+          angular.forEach($rootScope.newMissions, function(newMission){
+            promises.push(Mission.remove({missionId: newMission.id}).$promise);
+          });
+
           $q.all(promises).then(function(){
             delete $rootScope.newExperiences;
             delete $rootScope.deletedExperiences;
+            delete $rootScope.newMissions;
+            delete $rootScope.deletedMissions;
             $location.path('/employees');
           });
         });
@@ -76,7 +82,6 @@ angular.module('ezcvApp')
         }
         $scope.me._embedded.experiences.push(experience);
         $rootScope.newExperiences.push(experience);
-        console.debug($rootScope.newExperiences);
         $location.path('/edit/experience/'+experience.id);
         $scope.loading = false;
       });
@@ -115,6 +120,10 @@ angular.module('ezcvApp')
             promises.push(Experience.remove({experienceId: deletedExperience.id}).$promise);
         });
 
+        angular.forEach($rootScope.deletedMissions, function(deletedMission){
+            promises.push(Mission.remove({missionId: deletedMission.id}).$promise);
+        });
+
         angular.forEach($scope.me._embedded.experiences, function(experience){
             var experienceOriginal = $scope.meOriginal._embedded.experiences.filter(function(exp){ return exp.id == experience.id; })[0];
 
@@ -136,6 +145,20 @@ angular.module('ezcvApp')
 
             experience.employee = $scope.me.id;
             promises.push(Experience.update(experience).$promise);
+
+            angular.forEach(experience._embedded.missions, function(mission){
+                if(angular.isDefined(experienceOriginal)){
+                  var missionOriginal = experienceOriginal._embedded.missions.filter(function(mis){ return mis.id == mission.id; })[0];
+
+                  if(angular.isDefined(missionOriginal) && angular.equals(mission, missionOriginal)){
+                    return;
+                  }
+                }
+                mission.experience = experience.id;
+                mission.tags = mission._embedded.tags.map(function(tag){ return tag.id; });
+                promises.push(Mission.update(mission).$promise);
+            });
+
         });
 
         $q.all(promises).then(function(){
@@ -182,6 +205,8 @@ angular.module('ezcvApp')
               $rootScope.meOriginal = $scope.meOriginal;
               $rootScope.newExperiences = [];
               $rootScope.deletedExperiences = [];
+              $rootScope.newMissions = [];
+              $rootScope.deletedMissions = [];
               $scope.loading = false;
           });
       });

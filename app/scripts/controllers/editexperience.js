@@ -63,6 +63,7 @@ angular.module('ezcvApp')
           $scope.experience._embedded.missions = [];
         }
         $scope.experience._embedded.missions.push(mission);
+        $rootScope.newMissions.push(mission);
         $scope.creating = false;
       });
     };
@@ -79,6 +80,7 @@ angular.module('ezcvApp')
         $scope.experience._embedded.missions = $scope.experience._embedded.missions.filter(function(m){
           return (m.id != mission.id);
         });
+        $rootScope.deletedMissions.push(mission);
       });
     };
     
