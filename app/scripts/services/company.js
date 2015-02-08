@@ -9,5 +9,7 @@
  */
 angular.module('ezcvApp')
   .factory('Company', function ($resource, appConfig) {
-    return $resource(appConfig.apiEndpoint + '/company/:companyId', {companyId: '@id'});
+    return $resource(appConfig.apiEndpoint + '/company/:companyId', {companyId: '@id'}, {
+    	query: {method: 'GET', isArray: false}
+    });
   });

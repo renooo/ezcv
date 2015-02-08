@@ -30,7 +30,8 @@ angular
       })
       .when('/employees', {
         templateUrl: 'views/employees.html',
-        controller: 'EmployeesCtrl'
+        controller: 'EmployeesCtrl',
+        resolve: {me: 'me'}
       })
       .when('/employee/:employeeId', {
         templateUrl: 'views/employee.html',
@@ -38,31 +39,32 @@ angular
       })
       .when('/login', {
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        resolve: {me: 'me'}
       })
       .when('/logout', {
         templateUrl: 'views/logout.html',
-        controller: 'LogoutCtrl'
+        controller: 'LogoutCtrl',
+        resolve: {me: 'me'}
       })
       .when('/register', {
         templateUrl: 'views/register.html',
         controller: 'RegisterCtrl'
       })
+      .when('/profile', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl',
+        resolve: {me: 'me', countries: 'countries'}
+      })
       .when('/edit', {
         templateUrl: 'views/edit.html',
-        controller: 'EditCtrl'
-      })
-      .when('/profile', {
-        templateUrl: 'views/profile.html',
-        controller: 'ProfileCtrl'
-      })
-      .when('/profile', {
-        templateUrl: 'views/profile.html',
-        controller: 'ProfileCtrl'
+        controller: 'EditCtrl',
+        resolve: {me: 'me'}
       })
       .when('/edit/experience/:experienceId', {
         templateUrl: 'views/editexperience.html',
-        controller: 'EditexperienceCtrl'
+        controller: 'EditexperienceCtrl',
+        resolve: {jobs: 'jobs', companies: 'companies'}
       })
       .otherwise({
         redirectTo: '/employees'

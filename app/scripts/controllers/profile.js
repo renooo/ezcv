@@ -8,39 +8,19 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('ProfileCtrl', function ($scope, $window, $location, $mdDialog, $mdToast, $animate, $filter, $resource, Employee, Country) {
-  	$scope.me = null;
-    $scope.meOriginal = null;
-  	$scope.myId = localStorage.my_id;
-  	$scope.countries = [];
+  .controller('ProfileCtrl', function ($scope, $window, $location, $mdDialog, $animate, $filter, $resource, toastMessage, me, countries) {
+  	$scope.me = angular.copy(me);
+  	$scope.countries = countries;
     $scope.errors = {};
-  	$scope.loading = true;
-  	$scope.updating = false;
+  	$scope.loading = false;
 
-    if(!$scope.myId){
+    if(angular.equals($scope.me, {})){
       $location.path('/login');
       return;
     }
 
-    Employee.get({employeeId: $scope.myId}, function(me){
-      Country.get({}, function(countries){
-          $resource(me._embedded.country._links.self.href).get({}, function(country){
-            $scope.countries = countries._embedded.countries;
-            
-            $scope.me = me;
-            $scope.me.birthdate = new Date(me.birthdate.date);
-            $scope.me.zipCode = parseInt(me.zipCode);
-            $scope.me.country = country;
-
-            $scope.meOriginal = angular.copy($scope.me);
-
-            $scope.loading = false;
-          });
-      });
-    });
-
     $scope.viewEmployees = function(){
-        if(angular.equals($scope.me, $scope.meOriginal)) {
+        if(angular.equals($scope.me, me)) {
           $location.path('/employees');
           return;
         };
@@ -57,27 +37,10 @@ angular.module('ezcvApp')
         });
     };
 
-    $scope.redirectAfterUpdate = function(){
-        $location.path('/employees');
-    };
-
-    $scope.showToastMessage = function(message){
-        $mdToast.show(
-          $mdToast.simple()
-            .content(message)
-            .position('bottom right')
-            .hideDelay(6000)
-        );
-    };
-
     $scope.update = function(){
-        var userData = angular.copy($scope.me);
+        var employee = angular.copy($scope.me);
 
-        if(angular.isDefined(userData.birthdate)){
-            userData.birthdate = $filter('date')(userData.birthdate, 'y-MM-dd');
-        }
-
-        angular.forEach(userData, function(value, fieldName){
+        angular.forEach(employee, function(value, fieldName){
           if(angular.isDefined($scope.profileForm[fieldName])){
             $scope.profileForm[fieldName].$invalid = false;
             $scope.profileForm[fieldName].$valid = true;
@@ -85,12 +48,13 @@ angular.module('ezcvApp')
         });
 
         $scope.errors = {};
-        $scope.updating = true;
+        $scope.loading = true;
 
-        Employee.update({employeeId: userData.id}, userData, function(){
-          $scope.updating = false;
-          $scope.showToastMessage('Vos données ont bien été mises à jour.');
-          $scope.redirectAfterUpdate();
+        employee.$update(function(updated){
+          $scope.loading = false;
+          angular.copy(updated, me);
+          angular.copy(updated, $scope.me);
+          toastMessage.show('Vos données ont bien été mises à jour.');
 
         }, function(result){
           angular.forEach(result.data.validation_messages, function(value, fieldName){
@@ -101,8 +65,8 @@ angular.module('ezcvApp')
           });
 
           $window.scrollTo(0, 0);
-          $scope.updating = false;
-          $scope.showToastMessage('La mise à jour a échoué.');
+          $scope.loading = false;
+          toastMessage.show('La mise à jour a échoué.');
           $scope.errors = result.data.validation_messages;
         });
       };

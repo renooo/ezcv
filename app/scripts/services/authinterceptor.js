@@ -11,15 +11,15 @@ angular.module('ezcvApp')
   .factory('AuthInterceptor', function ($q, $location) {
 	return {
 		request: function(config){
-			if(localStorage.access_token){
-				config.headers['Authorization'] = 'Bearer '+localStorage.access_token;
+			if(localStorage.accessToken){
+				config.headers['Authorization'] = 'Bearer '+localStorage.accessToken;
 			}
 			return config || $q.when(config);
 		},
 		responseError: function(rejection) {
 			if(rejection.status == 401 || rejection.status == 403){
-			    delete localStorage.access_token;
-			    delete localStorage.my_id;
+			    delete localStorage.accessToken;
+			    delete localStorage.myId;
 				$location.path('/login');
 			}
 	        return $q.reject(rejection);

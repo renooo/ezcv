@@ -8,23 +8,12 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EditCtrl', function ($scope, $rootScope, $location, $filter, $q, $resource, $mdBottomSheet, $mdDialog, $mdToast, Employee, Experience, Mission) {
-  	$scope.me = null;
-    $scope.meOriginal = null;
-  	$scope.myId = localStorage.my_id;
-    $scope.loading = true;
-
-    $scope.showToastMessage = function(message){
-        $mdToast.show(
-          $mdToast.simple()
-            .content(message)
-            .position('bottom right')
-            .hideDelay(6000)
-        );
-    };
+  .controller('EditCtrl', function ($scope, $rootScope, $window, $location, $filter, $q, $resource, $mdBottomSheet, $mdDialog, me, toastMessage, Employee, Experience, Mission) {
+  	$scope.me = angular.copy(me);
+    $scope.loading = false;
     
     $scope.viewEmployees = function(){
-        if(angular.equals($scope.me, $scope.meOriginal)) {
+        if(angular.equals($scope.me, me)) {
           $location.path('/employees');
           return;
         }
@@ -76,7 +65,7 @@ angular.module('ezcvApp')
         return;
       }
       $scope.loading = true;
-      Experience.save({employee: $scope.me.id}, function(experience){
+      Experience.save({_embedded: {employee: $scope.me}}, function(experience){
         if(!angular.isArray($scope.me._embedded.experiences)){
           $scope.me._embedded.experiences = [];
         }
@@ -110,7 +99,7 @@ angular.module('ezcvApp')
     $scope.update = function(){
         var promises = [];
         
-        if(angular.equals($scope.me, $scope.meOriginal)){
+        if(angular.equals($scope.me, me)){
           return;
         }
 
@@ -125,25 +114,13 @@ angular.module('ezcvApp')
         });
 
         angular.forEach($scope.me._embedded.experiences, function(experience){
-            var experienceOriginal = $scope.meOriginal._embedded.experiences.filter(function(exp){ return exp.id == experience.id; })[0];
+            var experienceOriginal = me._embedded.experiences.filter(function(exp){ return exp.id == experience.id; })[0];
 
             if(angular.isDefined(experienceOriginal) && angular.equals(experience, experienceOriginal)){
               return;
             }
-            if(experience.dateStart){
-              experience.dateStart = $filter('date')(experience.dateStart, 'y-MM-dd');
-            }
-            if(experience.dateEnd){
-              experience.dateEnd = $filter('date')(experience.dateEnd, 'y-MM-dd');
-            }
-            if(experience._embedded.job){
-              experience.job = experience._embedded.job.id;
-            }
-            if(experience._embedded.company){
-              experience.company = experience._embedded.company.id;
-            }
 
-            experience.employee = $scope.me.id;
+            experience._embedded.employee = $scope.me;
             promises.push(Experience.update(experience).$promise);
 
             angular.forEach(experience._embedded.missions, function(mission){
@@ -154,61 +131,33 @@ angular.module('ezcvApp')
                     return;
                   }
                 }
-                mission.experience = experience.id;
-                mission.tags = mission._embedded.tags.map(function(tag){ return tag.id; });
+                mission._embedded.experience = experience;
                 promises.push(Mission.update(mission).$promise);
             });
 
         });
 
         $q.all(promises).then(function(){
-            $scope.showToastMessage('Votre CV a bien été mis à jour.');
-            $location.path('/employees');
-            $scope.loading = false;
+            Employee.get({employeeId: me.id}, function(updated){
+              angular.copy(updated, me);
+              angular.copy(updated, $scope.me);
+              toastMessage.show('Votre CV a bien été mis à jour.');            
+              $scope.loading = false;
+            });
         }, function(){
-            $scope.showToastMessage('Erreur durant la mise à jour.');
+            toastMessage.show('Erreur durant la mise à jour.');
             $scope.loading = false;
         });
     };
 
-    if(angular.isDefined($rootScope.me)){
-      $scope.me = $rootScope.me;
-      $scope.meOriginal = $rootScope.meOriginal;
-      $scope.loading = false;
-
+    if(!angular.isDefined($rootScope.me)){
+      $rootScope.me = $scope.me;
+      $rootScope.newExperiences = [];
+      $rootScope.deletedExperiences = [];
+      $rootScope.newMissions = [];
+      $rootScope.deletedMissions = [];
+ 
     }else{
-      Employee.get({employeeId: $scope.myId}).$promise.then(function(me){
-          var promises = [];
-          $scope.loading = true;
-
-          angular.forEach(me._embedded.experiences, function(experience){
-              if(angular.isDefined(experience._embedded.job)){
-                experience._embedded.job = $resource(experience._embedded.job._links.self.href).get();
-                promises.push(experience._embedded.job.$promise);
-              }
-              if(angular.isDefined(experience._embedded.company)){
-                experience._embedded.company = $resource(experience._embedded.company._links.self.href).get();
-                promises.push(experience._embedded.company.$promise);
-              }
-              if(experience.dateStart){
-                experience.dateStart = new Date(experience.dateStart.date);
-              }
-              if(experience.dateEnd){
-                experience.dateEnd = new Date(experience.dateEnd.date);
-              }
-          });
-
-          $q.all(promises).then(function(promises){
-              $scope.me = me;
-              $scope.meOriginal = angular.copy($scope.me);
-              $rootScope.me = $scope.me;
-              $rootScope.meOriginal = $scope.meOriginal;
-              $rootScope.newExperiences = [];
-              $rootScope.deletedExperiences = [];
-              $rootScope.newMissions = [];
-              $rootScope.deletedMissions = [];
-              $scope.loading = false;
-          });
-      });
+      $scope.me = $rootScope.me;
     }
   });

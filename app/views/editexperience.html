@@ -16,14 +16,14 @@
 	        	<label>Poste occupé</label>
 	      	</md-input-container>
 	      	<div>
-	      		<select style="width: 100%;" name="job" ng-model="experience._embedded.job" ng-options="job.name for job in jobs track by job.id" ng-disabled="updating">
+	      		<select style="width: 100%;" name="job" ng-model="experience._embedded.job" ng-options="job.name for job in jobs._embedded.jobs track by job.id" ng-disabled="updating">
 	        	</select>
 	      	</div>
 			<md-input-container>
 	        	<label>Dans l'entreprise</label>
 	      	</md-input-container>
 	      	<div>
-	      		<select style="width: 100%;" name="company" ng-model="experience._embedded.company" ng-options="company.name for company in companies track by company.id" ng-disabled="updating">
+	      		<select style="width: 100%;" name="company" ng-model="experience._embedded.company" ng-options="company.name for company in companies._embedded.companies track by company.id" ng-disabled="updating">
 	        	</select>
 	      	</div>
 	      	<div layout="row" layout-align="center center">

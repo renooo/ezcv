@@ -9,5 +9,7 @@
  */
 angular.module('ezcvApp')
   .factory('Tag', function ($resource, appConfig) {
-    return $resource(appConfig.apiEndpoint + '/tag/:tagId', {tagId: '@id'});
+    return $resource(appConfig.apiEndpoint + '/tag/:tagId', {tagId: '@id'}, {
+    	query: {method: 'GET', isArray: false}
+    });
   });

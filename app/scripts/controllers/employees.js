@@ -8,12 +8,10 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, $timeout, Employee) {
+  .controller('EmployeesCtrl', function ($scope, $location, $mdSidenav, $timeout, me, Employee) {
     $scope.employees = [];
     $scope.showFilters = false;
-    $scope.me = null;
-    $scope.myId = localStorage.my_id;
-    $scope.loadingMe = false;
+    $scope.me = (angular.equals(me, {}) ? null : me);
     $scope.loading = false;
     $scope.page = 1;
     $scope.pageCount = null;
@@ -22,16 +20,6 @@ angular.module('ezcvApp')
         fullName: $location.search().fullName,
         isCurrentlyEmployed: $location.search().isCurrentlyEmployed,
         isLookingForAJob: $location.search().isLookingForAJob
-    };
-
-    $scope.loadMe = function(){
-        if($scope.myId){
-            $scope.loadingMe = true;
-            Employee.get({employeeId: $scope.myId}, function(employee){
-                $scope.me = employee;
-                $scope.loadingMe = false;
-            });
-        };
     };
 
     $scope.openSidenav = function(){
@@ -99,14 +87,14 @@ angular.module('ezcvApp')
         params.page = $scope.page;
         $scope.loading = true;
 
-        Employee.get(params, function(employees){
-            $scope.pageCount = employees.page_count;
+        Employee.query(params, function(collection){
+            $scope.pageCount = collection.page_count;
 
             if($scope.pageCount == 1 && $scope.page == 1){
                 $scope.employees = [];
             }
 
-            angular.forEach(employees._embedded.employees, function(employee){
+            angular.forEach(collection._embedded.employees, function(employee){
                 $scope.employees.push(employee);
             });
 
@@ -119,5 +107,4 @@ angular.module('ezcvApp')
     };
 
     $scope.loadEmployees();
-    $scope.loadMe();
   });

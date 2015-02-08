@@ -9,5 +9,7 @@
  */
 angular.module('ezcvApp')
   .service('Country', function ($resource, appConfig) {
-    return $resource(appConfig.apiEndpoint + '/country/:countryId', {countryId: '@id'});
+    return $resource(appConfig.apiEndpoint + '/country/:countryId', {countryId: '@id'}, {
+    	query: {method: 'GET', isArray: false}
+    });
   });

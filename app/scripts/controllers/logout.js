@@ -8,8 +8,15 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('LogoutCtrl', function ($location) {
-    delete localStorage.access_token;
-    delete localStorage.my_id;
-    $location.path('/employees');
+  .controller('LogoutCtrl', function ($window, $location, me) {
+  	if(!angular.isDefined(localStorage.myId)){
+  		$location.path('/');
+  		return;
+  	}
+    delete localStorage.accessToken;
+    delete localStorage.myId;
+    angular.forEach(me, function(value, key){
+    	delete me[key];
+    });
+    $location.path('/');
   });

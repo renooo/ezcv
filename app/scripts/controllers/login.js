@@ -8,7 +8,7 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('LoginCtrl', function ($scope, $location, $http, appConfig, Employee) {
+  .controller('LoginCtrl', function ($scope, $location, $http, appConfig, Employee, me) {
   	$scope.authenticating = false;
   	$scope.error = null;
   	$scope.login = {
@@ -18,7 +18,7 @@ angular.module('ezcvApp')
   		grant_type: 'password'
   	};
 
-  if(localStorage.my_id){
+  if(angular.isDefined(localStorage.myId)){
     $location.path('/employees');
     return;
   }
@@ -28,7 +28,7 @@ angular.module('ezcvApp')
 	};
 
 	$scope.redirectAfterLogin = function(){
-		$scope.viewEmployees();
+    $location.path('/employees');
 	};
 
 	$scope.authenticate = function(){
@@ -47,10 +47,11 @@ angular.module('ezcvApp')
   				'filter[0][value]': $scope.login.username
   			};
 
-  			localStorage.access_token = data.access_token;
+  			localStorage.accessToken = data.access_token;
 
-  			Employee.get(filter, function(employees){
-  				localStorage.my_id = employees._embedded.employees[0].id;
+  			Employee.query(filter, function(employees){
+  				localStorage.myId = employees._embedded.employees[0].id;
+          angular.copy(employees._embedded.employees[0], me);
           $scope.authenticating = false;
           $scope.redirectAfterLogin();
   			});
@@ -60,4 +61,4 @@ angular.module('ezcvApp')
   			$scope.authenticating = false;
   		});
 	};
-  });
+});

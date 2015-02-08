@@ -8,7 +8,7 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EmployeeCtrl', function ($scope, $routeParams, $resource, $location, $window, $q,  Employee) {
+  .controller('EmployeeCtrl', function ($scope, $routeParams, $location, $window, Employee) {
     $scope.employee = null;
     $window.scrollTo(0, 0);
 
@@ -26,31 +26,7 @@ angular.module('ezcvApp')
     };
     
     Employee.get({employeeId: $routeParams.employeeId}, function(employee){
-        var promises = [];
-
-        employee.birthdate = new Date(employee.birthdate.date);
-        
-    	angular.forEach(employee._embedded.experiences, function(experience){
-          if(angular.isDefined(experience._embedded.job)){
-            experience._embedded.job = $resource(experience._embedded.job._links.self.href).get();
-            promises.push(experience._embedded.job.$promise);
-          }
-          if(angular.isDefined(experience._embedded.company)){
-            experience._embedded.company = $resource(experience._embedded.company._links.self.href).get();
-            promises.push(experience._embedded.company.$promise);
-          }
-          if(experience.dateStart){
-            experience.dateStart = new Date(experience.dateStart.date);
-          }
-          if(experience.dateEnd){
-            experience.dateEnd = new Date(experience.dateEnd.date);
-          }
-    	});
-
-        $q.all(promises).then(function(){
-            $scope.employee = employee;
-        });    
-    	
+        $scope.employee = employee;	
     }, function(){
         $location.path('/employees');
     });

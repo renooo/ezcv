@@ -8,22 +8,26 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('AddtagsdialogCtrl', function ($scope, $mdDialog, Tag) {
+  .controller('AddtagsdialogCtrl', function ($scope, $mdDialog, tags) {
     $scope.tags = [];
     $scope.selection = {};
-
-    Tag.get({}, function(tags){
-    	$scope.tags = tags._embedded.tags;
-    });
 
     $scope.cancel = function(){
     	$mdDialog.hide();
     };
 
     $scope.add = function(){
-    	var tags = $scope.tags.filter(function(tag){
+    	var selectedTags = $scope.tags._embedded.tags.filter(function(tag){
     		return $scope.selection[tag.id];
     	});
-    	$mdDialog.hide(tags);
+    	$mdDialog.hide(selectedTags);
     };
+
+    tags.then(function(tags){
+        $scope.tags = tags;
+    });
+
+    // Tag.get({}, function(tags){
+    //     $scope.tags = tags._embedded.tags;
+    // });
   });

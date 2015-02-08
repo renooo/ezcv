@@ -8,9 +8,7 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('SidenavCtrl', function($scope, $rootScope, $mdSidenav, $location) {
-  	$scope.myId = localStorage.my_id;
-
+  .controller('SidenavCtrl', function($scope, $mdSidenav, $location) {
 	$scope.close = function() {
 	    return $mdSidenav('sidenav').close();
 	};
@@ -18,10 +16,14 @@ angular.module('ezcvApp')
 		$location.path('/employees');
 	};
 	$scope.viewMyCV = function(){
-		$location.path('/employee/'+$scope.myId);
+		if(!me){
+			return;
+		}
+		//me.then(function(me){
+			$location.path('/employee/'+me.id);
+		//});		
 	};
 	$scope.editMyCV = function(){
-		delete $rootScope.me;
 		$location.path('/edit');
 	};
 	$scope.editMyProfile = function(){

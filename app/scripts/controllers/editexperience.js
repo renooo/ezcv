@@ -8,11 +8,11 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('EditexperienceCtrl', function ($scope, $rootScope, $location, $routeParams, $q, $mdDialog, Job, Company, Mission) {
-  	$scope.me = $rootScope.me;
+  .controller('EditexperienceCtrl', function ($scope, $rootScope, $location, $routeParams, $mdDialog, jobs, companies, Mission) {
+    $scope.me = $rootScope.me;
   	$scope.experience = null;
-  	$scope.jobs = [];
-  	$scope.companies = [];
+  	$scope.jobs = jobs;
+  	$scope.companies = companies;
   	$scope.loading = true;
     $scope.creating = false;
 
@@ -58,7 +58,7 @@ angular.module('ezcvApp')
         return;
       }
       $scope.creating = true;
-      Mission.save({experience: $scope.experience.id}, function(mission){
+      Mission.save({_embedded: {experience: $scope.experience}}, function(mission){
         if(!angular.isArray($scope.experience._embedded.missions)){
           $scope.experience._embedded.missions = [];
         }
@@ -98,17 +98,5 @@ angular.module('ezcvApp')
       return;
     }
 
-    $q.all([
-      Job.get({}, function(jobs){
-        $scope.jobs = jobs._embedded.jobs;
-      }).$promise,
-
-      Company.get({}, function(companies){
-        $scope.companies = companies._embedded.companies;
-      }).$promise
-
-    ]).then(function(){
-        $scope.loading = false;
-    });
-
+    $scope.loading = false;
   });

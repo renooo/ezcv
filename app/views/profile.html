@@ -7,47 +7,51 @@
 			<h1 class="toolbar-title">
 	        	Modifier mon profil
 	      	</h1>
-	      	<div></div>
+	      	<div>
+		      	<md-button aria-label="enregistrer" ng-click="update()" ng-show="me" ng-disabled="loading">
+		      		<md-icon icon="images/ic_save_24px.svg" style="width: 24px; height: 24px;"></md-icon>
+		      	</md-button>
+		    </div>
 		</div>
 	</md-toolbar>
 	<md-content class="md-padding">
 		<form name="profileForm" layout="column" ng-hide="loading">
 			<md-input-container>
 	        	<label>Prénom</label>
-	        	<input name="firstName" ng-model="me.firstName" ng-disabled="updating">
+	        	<input name="firstName" ng-model="me.firstName" ng-disabled="loading">
 	        	<div ng-messages="errors.firstName">
 					<div ng-repeat="(code, message) in errors.firstName" ng-message="code">{{message}}</div>
 				</div>
 	      	</md-input-container>
 			<md-input-container>
 	        	<label>Nom</label>
-	        	<input name="lastName" ng-model="me.lastName" ng-disabled="updating">
+	        	<input name="lastName" ng-model="me.lastName" ng-disabled="loading">
 	        	<div ng-messages="errors.lastName">
 					<div ng-repeat="(code, message) in errors.lastName" ng-message="code">{{message}}</div>
 				</div>
 	      	</md-input-container>
 			<md-input-container class="date">
 	        	<label>Date de naissance</label>
-	        	<input name="birthdate" ng-model="me.birthdate" ng-disabled="updating" type="date" min="1900-01-01" max="1999-12-31">
+	        	<input name="birthdate" ng-model="me.birthdate" ng-disabled="loading" type="date" min="1900-01-01" max="1999-12-31">
 	        	<div ng-messages="errors.birthdate">
 					<div ng-repeat="(code, message) in errors.birthdate" ng-message="code">{{message}}</div>
 				</div>
 	      	</md-input-container>	      	
 	      	<div layout="row" layout-align="center center">
-				<md-checkbox name="hasDriversLicence" ng-model="me.hasDriversLicence" aria-label="titulaire du permis de conduire" class="md-primary" ng-disabled="updating">
+				<md-checkbox name="hasDriversLicence" ng-model="me.hasDriversLicence" aria-label="titulaire du permis de conduire" class="md-primary" ng-disabled="loading">
 					Titulaire du permis de conduire
 				</md-checkbox>
 	      	</div>
 			<md-input-container>
 	        	<label>Code postal</label>
-	        	<input name="zipCode" ng-model="me.zipCode" ng-disabled="updating" type="number">
+	        	<input name="zipCode" ng-model="me.zipCode" ng-disabled="loading" type="number">
 	        	<div ng-messages="errors.zipCode">
 					<div ng-repeat="(code, message) in errors.zipCode" ng-message="code">{{message}}</div>
 				</div>
 	      	</md-input-container>
 			<md-input-container>
 	        	<label>Ville</label>
-	        	<input name="city" ng-model="me.city" ng-disabled="updating">
+	        	<input name="city" ng-model="me.city" ng-disabled="loading">
 	        	<div ng-messages="errors.city">
 					<div ng-repeat="(code, message) in errors.city" ng-message="code">{{message}}</div>
 				</div>
@@ -56,45 +60,40 @@
 	        	<label>Pays</label>
 	      	</md-input-container>
 	      	<div>
-	      		<select style="width: 100%;" name="country" ng-model="me.country" ng-options="country.name for country in countries track by country.id" ng-disabled="updating">
+	      		<select style="width: 100%;" name="country" ng-model="me._embedded.country" ng-options="country.name for country in countries._embedded.countries track by country.id" ng-disabled="loading">
 	        	</select>
 	      	</div>
 	      	<md-input-container>
 		        <label>Intitulé de poste actuel (libre)</label>
-		        <input name="currentJobName" ng-model="me.currentJobName" ng-disabled="updating">
+		        <input name="currentJobName" ng-model="me.currentJobName" ng-disabled="loading">
 	        	<div ng-messages="errors.currentJobName">
 					<div ng-repeat="(code, message) in errors.currentJobName" ng-message="code">{{message}}</div>
 				</div>
 		    </md-input-container>
 		    <div layout="row" layout-align="center center">
-				<md-checkbox name="isCurrentlyEmployed" ng-model="me.isCurrentlyEmployed" aria-label="en poste" class="md-primary" ng-disabled="updating">
+				<md-checkbox name="isCurrentlyEmployed" ng-model="me.isCurrentlyEmployed" aria-label="en poste" class="md-primary" ng-disabled="loading">
 					En poste
 				</md-checkbox>
-				<md-checkbox name="isLookingForAJob" ng-model="me.isLookingForAJob" aria-label="en recherche" class="md-primary" ng-disabled="updating">
+				<md-checkbox name="isLookingForAJob" ng-model="me.isLookingForAJob" aria-label="en recherche" class="md-primary" ng-disabled="loading">
 					En recherche
 				</md-checkbox>
 		    </div>
 			<md-input-container>
 	        	<label>Addresse email</label>
-	        	<input type="email" name="email" ng-model="me.email" ng-disabled="updating">
+	        	<input type="email" name="email" ng-model="me.email" ng-disabled="loading">
 	        	<div ng-messages="errors.email">
 					<div ng-repeat="(code, message) in errors.email" ng-message="code">{{message}}</div>
 				</div>
 	      	</md-input-container>
 			<md-input-container>
 	        	<label>URL de votre avatar</label>
-	        	<input name="avatarUrl" type="url" ng-model="me.avatarUrl" ng-disabled="updating">
+	        	<input name="avatarUrl" type="url" ng-model="me.avatarUrl" ng-disabled="loading">
 	        	<div ng-messages="errors.avatarUrl">
 					<div ng-repeat="(code, message) in errors.avatarUrl" ng-message="code">{{message}}</div>
 				</div>
 	      	</md-input-container>
-      		<div layout="row" layout-align="center center">
-		      	<md-button ng-click="update()" class="md-primary" ng-disabled="updating">
-					Valider
-				</md-button>
-			</div>
 	    </form>
-	    <div layout="row" layout-align="center center" ng-show="loading || updating">
+	    <div layout="row" layout-align="center center" ng-show="loading">
 			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 		</div>
 	</md-content>

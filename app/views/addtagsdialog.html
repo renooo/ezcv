@@ -2,9 +2,9 @@
   <md-content>
     <md-subheader class="md-sticky-no-effect">Ajouter des mots-clés</md-subheader>
     <div layout="row" layout-align="center center">
-    	<md-progress-circular md-mode="indeterminate" ng-hide="tags.length"></md-progress-circular>
+    	<md-progress-circular md-mode="indeterminate" ng-hide="tags._embedded.tags.length"></md-progress-circular>
     </div>
-    <md-checkbox ng-repeat="tag in tags" class="md-primary" ng-model="selection[tag.id]" aria-label="{{tag.label}}">
+    <md-checkbox ng-repeat="tag in tags._embedded.tags" class="md-primary" ng-model="selection[tag.id]" aria-label="{{tag.label}}">
     	{{tag.label}}
   	</md-checkbox>
   </md-content>

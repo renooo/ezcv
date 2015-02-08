@@ -9,5 +9,7 @@
  */
 angular.module('ezcvApp')
   .factory('Job', function ($resource, appConfig) {
-    return $resource(appConfig.apiEndpoint + '/job/:jobId', {jobId: '@id'});
+    return $resource(appConfig.apiEndpoint + '/job/:jobId', {jobId: '@id'}, {
+    	query: {method: 'GET', isArray: false}
+    });
   });

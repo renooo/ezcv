@@ -8,13 +8,13 @@
  * Controller of the ezcvApp
  */
 angular.module('ezcvApp')
-  .controller('RegisterCtrl', function ($scope, $window, $location, $mdToast, $animate, $http, $filter, appConfig, Country) {
+  .controller('RegisterCtrl', function ($scope, $window, $location, $animate, $http, $filter, appConfig, toastMessage, Country) {
 	$scope.user = {country: {id: 'FR'}};
 	$scope.countries = [];
 	$scope.registering = false;
     $scope.errors = {};
 
-    if(localStorage.my_id){
+    if(localStorage.myId){
         $location.path('/employees');
         return;
     }
@@ -31,15 +31,6 @@ angular.module('ezcvApp')
         $location.path('/login');
     };    
     
-    $scope.showToastMessage = function(message){
-        $mdToast.show(
-          $mdToast.simple()
-            .content(message)
-            .position('bottom right')
-            .hideDelay(6000)
-        );
-    };
-
     $scope.register = function(){
         var userData = angular.copy($scope.user);
 
@@ -62,7 +53,7 @@ angular.module('ezcvApp')
     		method: 'POST',
     		data: userData
     	}).success(function(data, status, headers, config){
-            $scope.showToastMessage('L\'inscription a réussi. Veuillez vous connecter pour continuer.');
+            toastMessage.show('L\'inscription a réussi. Veuillez vous connecter pour continuer.');
     		$scope.redirectAfterRegister();
 
     	}).error(function(data, status, headers, config){
@@ -75,7 +66,7 @@ angular.module('ezcvApp')
 
             $window.scrollTo(0, 0);
             $scope.registering = false;
-            $scope.showToastMessage('L\'inscription a échoué.');        
+            toastMessage.show('L\'inscription a échoué.');        
             $scope.errors = data.validation_messages;
     	});
     };
