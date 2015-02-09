@@ -10,11 +10,14 @@
 angular.module('ezcvApp')
   .factory('Experience', function ($resource, $filter, appConfig) {
   	var prepareEntityToJson = function(experience){
-		if(angular.isDate(experience.dateStart)){
+        if(angular.isNumber(experience.status)){
+            return experience;
+        }
+		    if(angular.isDate(experience.dateStart)){
           experience.dateStart = $filter('date')(experience.dateStart, 'y-MM-dd');
         }
 
-		if(angular.isDate(experience.dateEnd)){
+		    if(angular.isDate(experience.dateEnd)){
           experience.dateEnd = $filter('date')(experience.dateEnd, 'y-MM-dd');
         }
 

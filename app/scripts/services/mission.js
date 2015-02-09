@@ -10,6 +10,10 @@
 angular.module('ezcvApp')
   .factory('Mission', function ($resource, appConfig) {
     var prepareEntityToJson = function(mission){
+      if(angular.isNumber(mission.status)){
+        return mission;
+      }
+
       if(angular.isObject(mission._embedded.experience)){
         mission.experience = mission._embedded.experience.id;
       }

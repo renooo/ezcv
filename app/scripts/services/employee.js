@@ -10,7 +10,7 @@
 angular.module('ezcvApp')
   .factory('Employee', function ($resource, $filter, appConfig, countries, jobs, companies) {
   	var prepareEntity = function(employee){
-      if(angular.isDefined(employee.validation_messages)){
+      if(angular.isDefined(employee.validation_messages) || angular.isNumber(employee.status)){
         return employee;
       }
 

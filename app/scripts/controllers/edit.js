@@ -141,6 +141,10 @@ angular.module('ezcvApp')
             Employee.get({employeeId: me.id}, function(updated){
               angular.copy(updated, me);
               angular.copy(updated, $scope.me);
+              $rootScope.newExperiences = [];
+              $rootScope.deletedExperiences = [];
+              $rootScope.newMissions = [];
+              $rootScope.deletedMissions = [];
               toastMessage.show('Votre CV a bien été mis à jour.');            
               $scope.loading = false;
             });
